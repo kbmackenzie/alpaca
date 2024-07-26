@@ -10,7 +10,7 @@
   },
   "keywords": [],
   "author": "KBMackenzie <kelly.a.betty@gmail.com>",
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "description": "",
   "devDependencies": {
     "@types/node": "^20.14.11",
