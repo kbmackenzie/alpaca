@@ -58,6 +58,10 @@ describe('post id validation', () => {
       input: 'And upper case ALSO isn\'t valid',
       expected: false
     },
+    {
+      input: '', // empty strings aren't okay, either!
+      expected: false
+    },
   ];
 
   test.each(posts)('id is correctly validated', ({ input, expected }) => {
