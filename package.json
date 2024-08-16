@@ -4,7 +4,7 @@
   "private": true,
   "main": "./dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json && tsc-alias -fp tsconfig.build.json",
     "clean": "rm -rf ./dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
