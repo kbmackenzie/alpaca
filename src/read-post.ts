@@ -8,14 +8,21 @@ import { resolve } from 'node:path';
 
 type Post = {
   meta: Meta;
+  id: string;
   body: string;
 };
 
-export async function readPost(folder: string): Promise<Either<string, Post>> {
+export type PostData = {
+  meta: Meta;
+  body: string;
+};
+
+export async function readPost(id: string, folder: string): Promise<Either<string, Post>> {
   const postM = await readContents(folder);
   const metaM = await readMeta(folder);
   return bind(postM, post => bind(metaM, meta => right({
     meta: { ...meta, ...post.meta },
+    id: id,
     body: post.body,
   })));
 }
@@ -37,12 +44,12 @@ async function readContents(folder: string) {
     await tryReadFile(path),
     buffer => bind(
       yamlMatter(path, buffer),
-      matter => createPost(matter)
+      matter => getPostData(matter)
     )
   );
 }
 
-function createPost({ data, content }: MatterData): Either<string, Post> {
+function getPostData({ data, content }: MatterData): Either<string, PostData> {
   return bind(
     validateMeta(data),
     meta => right({
