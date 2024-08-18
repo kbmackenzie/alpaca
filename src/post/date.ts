@@ -8,23 +8,16 @@ import { clamp } from '@/utils/clamp';
  * - As a simple object, { date: '01-01-24', time: '03:41pm' }
  * - As null/undefined; in which case, date is inferred from the mtime of 'post.md'. */
 
-export type PostDate =
-  | string
-  | { date: string; time: string; }
-  | null
-  | undefined;
-
 const dayRe  = /(\d{1,2})-(\d{1,2})-(\d{2,4})/;
 const timeRe = /(\d{1,2})(?:\:(\d{1,2}))?(am|pm)/i;
 
 /* Note: Assumes a schema-validated PostDate value. */
-export async function parsePostDate(postFolder: string, input: PostDate): Promise<Date> {
+export async function parsePostDate(postFolder: string, input: string): Promise<Date> {
   if (input === null || input === undefined || input === 'auto') {
     return inferPostDate(postFolder);
   }
-  const isString = typeof input === 'string';
-  const day  = isString ? parseDay(input)  : parseDay(input.date);
-  const time = isString ? parseTime(input) : parseTime(input.time);
+  const day  = parseDay(input);
+  const time = parseTime(input);
 
   if (!day || !time) {
     throw new Error('todo: handle this.');
