@@ -3,11 +3,10 @@ import { stat } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { clamp } from '@/utils/clamp.js';
 
-/* Post date can be specified in four ways:
+/* Post date can be specified in three ways:
  * - As a single string, '01-01-24 03:41pm'
  * - As a shorthand object, { date: '01-01-24', time: '03:41pm' }
- * - As a long date object.
- * - As a string 'inferred', meaning post date is inferred from the mtime of the 'post.md' file. */
+ * - As null/undefined; in which case, date is inferred from the mtime of 'post.md'. */
 
 export type PostDate =
   | string
