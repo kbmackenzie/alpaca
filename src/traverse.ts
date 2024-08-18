@@ -40,7 +40,7 @@ async function searchPostsDFS(traversal: Traversal, folder: string): Promise<voi
   }
 }
 
-function isPostFolder(folder: string) {
+function isPostFolder(folder: string): boolean {
   const post = path.resolve(folder, postContents);
   return existsSync(post);
 }
