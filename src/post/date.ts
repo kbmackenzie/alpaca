@@ -12,7 +12,7 @@ const dayRe  = /(\d{1,2})-(\d{1,2})-(\d{2,4})/;
 const timeRe = /(\d{1,2})(?:\:(\d{1,2}))?(am|pm)/i;
 
 /* Note: Assumes a schema-validated PostDate value. */
-export async function parsePostDate(postFolder: string, input: string): Promise<Date> {
+export async function parsePostDate(postFolder: string, input: string | null | undefined): Promise<Date> {
   if (input === null || input === undefined || input === 'auto') {
     return inferPostDate(postFolder);
   }
