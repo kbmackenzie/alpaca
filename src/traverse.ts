@@ -1,9 +1,7 @@
+import { postContents } from '@/constants.js';
 import { opendir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
-
-export const postFile = 'post.md';
-export const metaFile = 'meta.yaml';
 
 type Traversal = Readonly<{
   root: string;
@@ -43,6 +41,6 @@ async function searchPostsDFS(traversal: Traversal, folder: string): Promise<voi
 }
 
 function isPostFolder(folder: string) {
-  const post = path.resolve(folder, postFile);
+  const post = path.resolve(folder, postContents);
   return existsSync(post);
 }
