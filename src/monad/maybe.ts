@@ -1,6 +1,6 @@
 export type Maybe<A> =
-  | { type: 'just', value: A }
-  | { type: 'nothing' };
+  | Readonly<{ type: 'just', value: A }>
+  | Readonly<{ type: 'nothing' }>;
 
 export function pure<A>(value: A): Maybe<A> {
   return {
@@ -21,6 +21,9 @@ export function then<A, B>(ma: Maybe<A>, mb: Maybe<B>): Maybe<B> {
 export function fmap<A, B>(f: (a: A) => B, ma: Maybe<A>): Maybe<B> {
   return bind(ma, (a) => pure(f(a)));
 }
+
+export const just    = pure;
+export const nothing = { type: 'nothing' };
 
 export function isJust<A>(maybe: Maybe<A>): boolean {
   return maybe.type === 'just';
