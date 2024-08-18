@@ -1,7 +1,12 @@
-import { Meta } from '@/post/meta';
+export type PostMetadata = Readonly<{
+  title: string;
+  id: string;
+  timestamp: number;
+  description: string;
+  tags: string[];
+}>;
 
 export type Post = Readonly<{
-  meta: Meta;
-  id: string;
+  metadata: PostMetadata;
   body: string;
 }>;
