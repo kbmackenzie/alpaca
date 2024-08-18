@@ -7,10 +7,10 @@ import { readYaml } from '@/safe/yaml';
 import { MatterData, yamlMatter } from '@/safe/matter';
 import { resolve } from 'node:path';
 
-type PostData = {
+type PostData = Readonly<{
   meta: Meta;
   body: string;
-};
+}>;
 
 export async function readPost(id: string, folder: string): Promise<Either<string, Post>> {
   const postM = await readContents(folder);
