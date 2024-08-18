@@ -8,8 +8,8 @@ export type PostInfo = Readonly<{
   relative: string;
 }>;
 
-type Traversal = Readonly<{
-  root: string;
+type Searcher = Readonly<{
+  root:  string;
   posts: PostInfo[];
 }>;
 
@@ -19,17 +19,17 @@ export async function findPosts(root: string): Promise<PostInfo[]> {
 }
 
 /* The voyage to the corner of the globe is a real trip. */
-async function traverseRoot(root: string): Promise<Traversal> {
-  const traversal: Traversal = {
+async function traverseRoot(root: string): Promise<Searcher> {
+  const searcher: Searcher = {
     root:  path.normalize(root),
     posts: [],
   };
-  await searchPostsDFS(traversal, root);
-  return traversal;
+  await searchPostsDFS(searcher, root);
+  return searcher;
 }
 
 /* Depth-first search. */
-async function searchPostsDFS(traversal: Traversal, folder: string): Promise<void> {
+async function searchPostsDFS(searcher: Searcher, folder: string): Promise<void> {
   const dir = await opendir(folder);
 
   for await (const entry of dir) {
@@ -37,14 +37,14 @@ async function searchPostsDFS(traversal: Traversal, folder: string): Promise<voi
     const entryPath = path.resolve(folder, entry.name);
 
     if (isPostFolder(entryPath)) {
-      const relative = path.relative(traversal.root, entryPath);
-      traversal.posts.push({
+      const relative = path.relative(searcher.root, entryPath);
+      searcher.posts.push({
         path: entryPath,
         relative: relative,
       });
       continue;
     }
-    await searchPostsDFS(traversal, entryPath)
+    await searchPostsDFS(searcher, entryPath)
   }
 }
 
