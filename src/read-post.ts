@@ -7,7 +7,7 @@ import { readYaml } from '@/safe/yaml';
 import { MatterData, yamlMatter } from '@/safe/matter';
 import { resolve } from 'node:path';
 
-export type PostData = {
+type PostData = {
   meta: Meta;
   body: string;
 };
