@@ -49,8 +49,7 @@ function parseDay(input: string) {
 }
 
 function getYear(year: string): number {
-  if (year.length === 4) return Number(year);
-  return Number(year) + 2000;
+  return Number(year) + ((year.length === 4) ? 0 : 2000);
 }
 
 function parseTime(input: string) {
