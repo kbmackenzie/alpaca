@@ -40,3 +40,7 @@ export function isLeft<E, A>(m: Either<E, A>): boolean {
 export function isRight<E, A>(m: Either<E, A>): boolean {
   return m.type === 'right';
 }
+
+export function pipe<E, A>(initial: Either<E, A>, ...fs: ((a: A) => Either<E, A>)[]): Either<E, A> {
+  return fs.reduce((acc, f) => bind(acc, f), initial);
+}
