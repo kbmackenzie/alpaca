@@ -1,4 +1,4 @@
-import { PostDate } from '@/post/date.js';
+import { PostDate } from '@/post/date';
 
 export type Meta = Readonly<{
   title: string;

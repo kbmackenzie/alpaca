@@ -1,6 +1,6 @@
-import { Meta } from '@/post/meta.js';
-export * from '@/post/meta.js';
-export * from '@/post/id.js';
+import { Meta } from '@/post/meta';
+export * from '@/post/meta';
+export * from '@/post/id';
 
 export type Post = Readonly<{
   meta: Meta;

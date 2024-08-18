@@ -1,7 +1,7 @@
-import { postContents } from '@/constants.js';
+import { postContents } from '@/constants';
 import { stat } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { clamp } from '@/utils/clamp.js';
+import { clamp } from '@/utils/clamp';
 
 /* Post date can be specified in three ways:
  * - As a shorthand string, '01-01-24 03:41pm'

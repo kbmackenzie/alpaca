@@ -1,4 +1,4 @@
-import { postContents } from '@/constants.js';
+import { postContents } from '@/constants';
 import { opendir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
