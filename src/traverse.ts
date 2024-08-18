@@ -3,12 +3,17 @@ import { opendir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 
-type Traversal = Readonly<{
-  root: string;
-  posts: string[];
+export type PostInfo = Readonly<{
+  path:     string;
+  relative: string;
 }>;
 
-export async function findPosts(root: string): Promise<string[]> {
+type Traversal = Readonly<{
+  root: string;
+  posts: PostInfo[];
+}>;
+
+export async function findPosts(root: string): Promise<PostInfo[]> {
   const traversal = await traverseRoot(root);
   return traversal.posts;
 }
@@ -33,7 +38,10 @@ async function searchPostsDFS(traversal: Traversal, folder: string): Promise<voi
 
     if (isPostFolder(entryPath)) {
       const relative = path.relative(traversal.root, entryPath);
-      traversal.posts.push(relative);
+      traversal.posts.push({
+        path: entryPath,
+        relative: relative,
+      });
       continue;
     }
     await searchPostsDFS(traversal, entryPath)
