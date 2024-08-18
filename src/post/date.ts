@@ -1,5 +1,6 @@
+import { Either, left, right, bind, fmap } from '@/monad/either';
+import { tryStat } from '@/safe/io';
 import { postContents } from '@/constants';
-import { stat } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { clamp } from '@/utils/clamp';
 
@@ -8,56 +9,80 @@ import { clamp } from '@/utils/clamp';
  * - As a simple object, { date: '01-01-24', time: '03:41pm' }
  * - As null/undefined; in which case, date is inferred from the mtime of 'post.md'. */
 
+type Day = {
+  month: number;
+  day:   number;
+  year:  number;
+};
+
+type Time = {
+  hours:   number;
+  minutes: number;
+};
+
 const dayRe  = /(\d{1,2})-(\d{1,2})-(\d{2,4})/;
 const timeRe = /(\d{1,2})(?:\:(\d{1,2}))?(am|pm)/i;
 
 /* Note: Assumes a schema-validated PostDate value. */
-export async function parsePostDate(postFolder: string, input: string | null | undefined): Promise<Date> {
+export async function parsePostDate(
+  folder: string,
+  input: string | null | undefined
+): Promise<Either<string, Date>> {
   if (input === null || input === undefined || input === 'auto') {
-    return inferPostDate(postFolder);
+    return inferPostDate(folder);
   }
-  const day  = parseDay(input);
-  const time = parseTime(input);
-
-  if (!day || !time) {
-    throw new Error('todo: handle this.');
-  }
-  return new Date(day.day, day.month - 1, day.year, time.hours, time.minutes);
+  return bind(
+    parseDay(input),
+    day => bind(
+      parseTime(input),
+      time => createDate(day, time)
+    )
+  );
 }
 
-function parseDay(input: string) {
+function parseDay(input: string): Either<string, Day> {
   const dayMatch = dayRe.exec(input);
   if (dayMatch === null) {
-    return null; /* todo: return either monad. */
+    return left(`Couldn't parse day from string "${input}"!`);
   }
   const month = clamp(Number(dayMatch[1]), 1, 12);
   const day   = clamp(Number(dayMatch[2]), 1, 31);
   const year  = getYear(dayMatch[3]);
 
-  return {
+  return right({
     month: month,
     day:   day,
     year:  year,
-  };
+  });
 }
 
-function getYear(year: string): number {
-  return Number(year) + ((year.length === 4) ? 0 : 2000);
-}
-
-function parseTime(input: string) {
+function parseTime(input: string): Either<string, Time> {
   const timeMatch = timeRe.exec(input);
   if (timeMatch === null) {
-    return null;
+    return left(`Couldn't parse time from string "${input}"!`);
   }
   const isPM    = /pm/i.test(timeMatch[3]);
   const hours   = getHour(timeMatch[1], isPM);
   const minutes = Number(timeMatch[2]);
 
-  return {
+  return right({
     hours:   hours,
     minutes: minutes,
-  };
+  });
+}
+
+async function inferPostDate(folder: string): Promise<Either<string, Date>> {
+  const postPath = resolve(folder, postContents);
+  const stats = await tryStat(postPath);
+  return fmap(s => s.mtime, stats);
+}
+
+function createDate({ day, month, year }: Day, { hours, minutes }: Time): Either<string, Date> {
+  return right(new Date(day, month - 1, year, hours, minutes));
+}
+
+function getYear(year: string): number {
+  return Number(year) + ((year.length === 4) ? 0 : 2000);
 }
 
 function getHour(hour: string, isPM: boolean): number {
@@ -66,10 +91,4 @@ function getHour(hour: string, isPM: boolean): number {
     return isPM ? 12 : 0;
   }
   return clamp(hourNum + (isPM ? 12 : 0), 0, 23);
-}
-
-async function inferPostDate(folder: string): Promise<Date> {
-  const postPath = resolve(folder, postContents);
-  const stats    = await stat(postPath);
-  return stats.mtime;
 }
