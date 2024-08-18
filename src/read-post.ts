@@ -1,16 +1,11 @@
 import { Either, right, bind } from '@/monad/either';
+import { Post } from '@/post/post';
 import { Meta, validateMeta } from '@/post/meta';
 import { postContents, postMetaFile } from '@/constants';
 import { tryReadFile } from '@/safe/io';
 import { readYaml } from '@/safe/yaml';
 import { MatterData, yamlMatter } from '@/safe/matter';
 import { resolve } from 'node:path';
-
-type Post = {
-  meta: Meta;
-  id: string;
-  body: string;
-};
 
 export type PostData = {
   meta: Meta;
