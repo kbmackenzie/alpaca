@@ -26,6 +26,8 @@ const schema: JTDSchemaType<Meta> = {
 const ajv = new Ajv();
 const validate = ajv.compile<Meta>(schema);
 
-export function validateMeta(meta: object): Either<typeof validate.errors, Meta> {
-  return validate(meta) ? right(meta) : left(validate.errors);
+export function validateMeta(meta: object): Either<string, Meta> {
+  return validate(meta)
+    ? right(meta)
+    : left(`Invalid post metadata! Errors: ${validate.errors}`);
 }
