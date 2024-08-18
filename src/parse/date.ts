@@ -92,3 +92,7 @@ function getHour(hour: string, isPM: boolean): number {
   }
   return clamp(hourNum + (isPM ? 12 : 0), 0, 23);
 }
+
+export function isValidDate(input: string): boolean {
+  return !!input && dayRe.test(input) && timeRe.test(input);
+}
