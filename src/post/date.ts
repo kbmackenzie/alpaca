@@ -4,8 +4,8 @@ import { resolve } from 'node:path';
 import { clamp } from '@/utils/clamp.js';
 
 /* Post date can be specified in three ways:
- * - As a single string, '01-01-24 03:41pm'
- * - As a shorthand object, { date: '01-01-24', time: '03:41pm' }
+ * - As a shorthand string, '01-01-24 03:41pm'
+ * - As a simple object, { date: '01-01-24', time: '03:41pm' }
  * - As null/undefined; in which case, date is inferred from the mtime of 'post.md'. */
 
 export type PostDate =
