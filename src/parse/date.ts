@@ -21,7 +21,7 @@ type Time = {
 const dayRe  = /(\d{1,2})-(\d{1,2})-(\d{2,4})/;
 const timeRe = /(\d{1,2})(?:\:(\d{1,2}))?(am|pm)/i;
 
-/* Note: Assumes a schema-validated PostDate value. */
+/* Note: Assumes a schema-validated date value: string, null or undefined. */
 export async function parsePostDate(
   folder: string,
   input: string | null | undefined
