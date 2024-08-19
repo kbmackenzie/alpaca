@@ -24,8 +24,3 @@ export function resolveImageAlias(options?: Options): (tree: Root) => void {
     });
   }
 }
-
-export const imageAliasPreset = (settings: Settings): Preset => ({
-  plugins: [ resolveImageAlias ],
-  settings: settings,
-});
