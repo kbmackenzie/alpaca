@@ -1,7 +1,6 @@
 import { parseImagePath, shouldTransform } from '@/parse/image-path';
 import { isLeft } from '@/monad/either';
 import { Root } from 'mdast';
-import { Preset, Settings } from 'unified';
 import { visit } from 'unist-util-visit';
 import { join } from 'node:path/posix';
 
