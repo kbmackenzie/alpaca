@@ -2,14 +2,14 @@ import { Either, left, right } from '@/monad/either';
 import Ajv from 'ajv';
 import type { JTDSchemaType } from 'ajv/dist/jtd';
 
-export type Meta = Readonly<{
+export type MetaFile = Readonly<{
   title: string;
   tags?: string[];
   date?: string;
   description?: string;
 }>;
 
-const schema: JTDSchemaType<Meta> = {
+const schema: JTDSchemaType<MetaFile> = {
   properties: {
     title: { type: 'string' },
   },
@@ -24,9 +24,9 @@ const schema: JTDSchemaType<Meta> = {
 };
 
 const ajv = new Ajv();
-const validate = ajv.compile<Meta>(schema);
+const validate = ajv.compile<MetaFile>(schema);
 
-export function validateMeta(meta: object): Either<string, Meta> {
+export function validateMetaFile(meta: object): Either<string, MetaFile> {
   return validate(meta)
     ? right(meta)
     : left(`Invalid post metadata! Errors: ${validate.errors}`);

@@ -1,5 +1,5 @@
+import { MetaFile, validateMetaFile } from '@/traverse/meta-file';
 import { Either, right, bind } from '@/monad/either';
-import { Meta, validateMeta } from '@/post/meta';
 import { postContents, postMetaFile } from '@/constants';
 import { tryReadFile } from '@/safe/io';
 import { readYaml } from '@/safe/yaml';
@@ -7,7 +7,7 @@ import { MatterData, yamlMatter } from '@/safe/matter';
 import { resolve } from 'node:path';
 
 type PostData = Readonly<{
-  meta: Meta;
+  meta: MetaFile;
   body: string;
 }>;
 
@@ -20,13 +20,13 @@ export async function readPostData(folder: string): Promise<Either<string, PostD
   })));
 }
 
-async function readMeta(folder: string): Promise<Either<string, Meta>> {
+async function readMeta(folder: string): Promise<Either<string, MetaFile>> {
   const path = resolve(folder, postMetaFile);
   return bind(
     await tryReadFile(path),
     buffer => bind(
       readYaml(path, buffer.toString()),
-      data => validateMeta(data),
+      data => validateMetaFile(data),
     )
   );
 }
@@ -44,7 +44,7 @@ async function readContents(folder: string) {
 
 function getPostData({ data, content }: MatterData): Either<string, PostData> {
   return bind(
-    validateMeta(data),
+    validateMetaFile(data),
     meta => right({
       meta: meta,
       body: content,
