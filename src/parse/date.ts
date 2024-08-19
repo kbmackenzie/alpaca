@@ -22,13 +22,18 @@ const dayRe  = /(\d{1,2})-(\d{1,2})-(\d{2,4})/;
 const timeRe = /(\d{1,2})(?:\:(\d{1,2}))?(am|pm)/i;
 
 /* Note: Assumes a schema-validated date value: string, null or undefined. */
-export async function parsePostDate(
+export async function getPostDate(
   folder: string,
-  input: string | null | undefined
+  input: string | null| undefined
 ): Promise<Either<string, Date>> {
   if (input === null || input === undefined || input === 'auto') {
     return inferPostDate(folder);
   }
+  return parsePostDate(input);
+}
+
+/* A pure function; never does IO, unlike getPostDate(). */
+export function parsePostDate(input: string): Either<string, Date> {
   return bind(
     parseDay(input),
     day => bind(
