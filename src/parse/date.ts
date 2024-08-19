@@ -1,7 +1,7 @@
 import { Either, left, right, bind, fmap } from '@/monad/either';
 import { tryStat } from '@/safe/io';
 import { postContents } from '@/constants';
-import { resolve } from 'node:path';
+import { join } from 'node:path';
 import { clamp } from '@/utils/clamp';
 
 /* Post date should be a string of form: '01-01-24 03:41pm'
@@ -75,7 +75,7 @@ function parseTime(input: string): Either<string, Time> {
 }
 
 async function inferPostDate(folder: string): Promise<Either<string, Date>> {
-  const postPath = resolve(folder, postContents);
+  const postPath = join(folder, postContents);
   const stats = await tryStat(postPath);
   return fmap(s => s.mtime, stats);
 }

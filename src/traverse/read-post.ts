@@ -4,7 +4,7 @@ import { postContents, postMetaFile } from '@/constants';
 import { tryReadFile } from '@/safe/io';
 import { readYaml } from '@/safe/yaml';
 import { MatterData, yamlMatter } from '@/safe/matter';
-import { resolve } from 'node:path';
+import { join } from 'node:path';
 
 type PostData = Readonly<{
   meta: MetaFile;
@@ -21,7 +21,7 @@ export async function readPostData(folder: string): Promise<Either<string, PostD
 }
 
 async function readMeta(folder: string): Promise<Either<string, MetaFile>> {
-  const path = resolve(folder, postMetaFile);
+  const path = join(folder, postMetaFile);
   return bind(
     await tryReadFile(path),
     buffer => bind(
@@ -32,7 +32,7 @@ async function readMeta(folder: string): Promise<Either<string, MetaFile>> {
 }
 
 async function readContents(folder: string) {
-  const path = resolve(folder, postContents);
+  const path = join(folder, postContents);
   return bind(
     await tryReadFile(path),
     buffer => bind(

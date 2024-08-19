@@ -34,7 +34,7 @@ async function searchPostsDFS(searcher: Searcher, folder: string): Promise<void>
 
   for await (const entry of dir) {
     if (!entry.isDirectory()) continue;
-    const entryPath = path.resolve(folder, entry.name);
+    const entryPath = path.join(folder, entry.name);
 
     if (isPostFolder(entryPath)) {
       const relative = path.relative(searcher.root, entryPath);
@@ -49,6 +49,6 @@ async function searchPostsDFS(searcher: Searcher, folder: string): Promise<void>
 }
 
 function isPostFolder(folder: string): boolean {
-  const post = path.resolve(folder, postContents);
+  const post = path.join(folder, postContents);
   return existsSync(post);
 }
