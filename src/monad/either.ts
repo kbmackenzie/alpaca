@@ -33,11 +33,11 @@ export function left<E, A>(e: E): Either<E, A> {
 
 export const right = pure;
 
-export function isLeft<E, A>(m: Either<E, A>): boolean {
+export function isLeft<E, A>(m: Either<E, A>): m is { type: 'left', value: E } {
   return m.type === 'left';
 }
 
-export function isRight<E, A>(m: Either<E, A>): boolean {
+export function isRight<E, A>(m: Either<E, A>): m is { type: 'right', value: A } {
   return m.type === 'right';
 }
 
