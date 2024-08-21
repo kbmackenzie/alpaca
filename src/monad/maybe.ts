@@ -25,11 +25,11 @@ export function fmap<A, B>(f: (a: A) => B, ma: Maybe<A>): Maybe<B> {
 export const just = pure;
 export const nothing: Maybe<any> = { type: 'nothing' };
 
-export function isJust<A>(maybe: Maybe<A>): boolean {
+export function isJust<A>(maybe: Maybe<A>): maybe is { type: 'just', value: A } {
   return maybe.type === 'just';
 }
 
-export function isNothing<A>(maybe: Maybe<A>): boolean {
+export function isNothing<A>(maybe: Maybe<A>): maybe is { type: 'nothing' } {
   return maybe.type === 'nothing';
 }
 
