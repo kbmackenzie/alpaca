@@ -1,5 +1,6 @@
 import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
+import { copyFile } from 'node:fs/promises';
 import { readFile, stat } from 'node:fs/promises';
 import { Stats } from 'node:fs';
 
@@ -21,4 +22,14 @@ export async function tryStat(path: string): Promise<Either<string, Stats>> {
   catch (error) {
     return either.left<string, Stats>(`Couldn't get stats for file "${path}": ${String(error)}`);
   }
+}
+
+export async function tryCopyFile(from: string, to: string): Promise<Either<string, void>> {
+  try {
+    await copyFile(from, to);
+  }
+  catch (error) {
+    return either.left<string, void>(`Couldn't copy file from "${from}" to "${to}": ${String(error)}`);
+  }
+  return either.right<string, void>(undefined); /* Signal success. */
 }
