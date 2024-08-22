@@ -24,6 +24,11 @@ export function fmap<E, A, B>(f: (value: A) => B, m: Either<E, A>): Either<E, B>
   return bind(m, (a) => pure(f(a)));
 }
 
+/* Equivalent to Haskell's '<*' function. */
+export function after<E, A, B>(ma: Either<E, A>, mb: Either<E, B>): Either<E, A> {
+  return bind(ma, (a) => bind(mb, _ => pure(a)));
+}
+
 export function left<E, A>(e: E): Either<E, A> {
   return {
     type: 'left',
