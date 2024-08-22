@@ -1,6 +1,7 @@
-import { Either, left, right, bind, fmap } from '@/monad/either';
-import { tryStat } from '@/safe/io';
 import { postContents } from '@/constants';
+import { Either } from '@/monad/either';
+import * as either from '@/monad/either';
+import { tryStat } from '@/safe/io';
 import { join } from 'node:path';
 import { clamp } from '@/utils/clamp';
 
@@ -34,9 +35,9 @@ export async function getPostDate(
 
 /* A pure function; never does IO, unlike getPostDate(). */
 export function parsePostDate(input: string): Either<string, Date> {
-  return bind(
+  return either.bind(
     parseDay(input),
-    day => bind(
+    day => either.bind(
       parseTime(input),
       time => createDate(day, time)
     )
@@ -46,13 +47,13 @@ export function parsePostDate(input: string): Either<string, Date> {
 function parseDay(input: string): Either<string, Day> {
   const dayMatch = dayRe.exec(input);
   if (dayMatch === null) {
-    return left(`Couldn't parse day from string "${input}"!`);
+    return either.left(`Couldn't parse day from string "${input}"!`);
   }
   const month = clamp(Number(dayMatch[1]), 1, 12);
   const day   = clamp(Number(dayMatch[2]), 1, 31);
   const year  = getYear(dayMatch[3]);
 
-  return right({
+  return either.right({
     month: month,
     day:   day,
     year:  year,
@@ -62,13 +63,13 @@ function parseDay(input: string): Either<string, Day> {
 function parseTime(input: string): Either<string, Time> {
   const timeMatch = timeRe.exec(input);
   if (timeMatch === null) {
-    return left(`Couldn't parse time from string "${input}"!`);
+    return either.left(`Couldn't parse time from string "${input}"!`);
   }
   const isPM    = /pm/i.test(timeMatch[3]);
   const hours   = getHour(timeMatch[1], isPM);
   const minutes = Number(timeMatch[2]);
 
-  return right({
+  return either.right({
     hours:   hours,
     minutes: minutes,
   });
@@ -77,11 +78,11 @@ function parseTime(input: string): Either<string, Time> {
 async function inferPostDate(folder: string): Promise<Either<string, Date>> {
   const postPath = join(folder, postContents);
   const stats = await tryStat(postPath);
-  return fmap(s => s.mtime, stats);
+  return either.fmap(s => s.mtime, stats);
 }
 
 function createDate({ day, month, year }: Day, { hours, minutes }: Time): Either<string, Date> {
-  return right(new Date(day, month - 1, year, hours, minutes));
+  return either.right(new Date(day, month - 1, year, hours, minutes));
 }
 
 function getYear(year: string): number {

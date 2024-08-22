@@ -1,5 +1,7 @@
-import { Either, left, right } from '@/monad/either';
-import { Maybe, just, nothing } from '@/monad/maybe';
+import { Either } from '@/monad/either';
+import { Maybe } from '@/monad/maybe';
+import * as either from '@/monad/either';
+import * as maybe from '@/monad/maybe';
 import matter from 'gray-matter';
 
 export type MatterData = {
@@ -9,17 +11,17 @@ export type MatterData = {
 
 export function yamlMatter(path: string, content: string): Either<string, MatterData> {
   try {
-    if (!matter.test(content)) return right({
-      data: nothing,
+    if (!matter.test(content)) return either.right({
+      data: maybe.nothing,
       rest: content,
     });
     const data = matter(content, { language: 'yaml' });
-    return right({
-      data: just(data.data),
+    return either.right({
+      data: maybe.just(data.data),
       rest: data.content,
     });
   }
   catch (error) {
-    return left(`Couldn't parse front matter in file "${path}": ${String(error)}`);
+    return either.left(`Couldn't parse front matter in file "${path}": ${String(error)}`);
   }
 }

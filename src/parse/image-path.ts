@@ -1,4 +1,5 @@
-import { Either, left, right } from '@/monad/either';
+import { Either } from '@/monad/either';
+import * as either from '@/monad/either';
 
 const imageAlias = /^\@kestrel\/(.*)$/;
 
@@ -6,9 +7,9 @@ const imageAlias = /^\@kestrel\/(.*)$/;
 export function parseImagePath(input: string): Either<string, string> {
   const pathMatch = imageAlias.exec(input);
   if (pathMatch === null) {
-    return left(`Couldn't parse image path: "${input}"`);
+    return either.left(`Couldn't parse image path: "${input}"`);
   }
-  return right(pathMatch[1]);
+  return either.right(pathMatch[1]);
 }
 
 export function shouldTransform(input: string): boolean {

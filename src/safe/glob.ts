@@ -1,4 +1,5 @@
-import { Either, left, right } from '@/monad/either';
+import { Either } from '@/monad/either';
+import * as either from '@/monad/either';
 import { globby, Options } from 'globby';
 
 export async function tryGlob(
@@ -7,9 +8,9 @@ export async function tryGlob(
 ): Promise<Either<string, string[]>> {
   try {
     const images = await globby(folder, globOptions);
-    return right<string, string[]>(images);
+    return either.right<string, string[]>(images);
   }
   catch (error) {
-    return left<string, string[]>(`Couldn't glob in folder "${folder}": ${String(error)}`);
+    return either.left<string, string[]>(`Couldn't glob in folder "${folder}": ${String(error)}`);
   }
 }

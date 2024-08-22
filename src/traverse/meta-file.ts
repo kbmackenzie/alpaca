@@ -1,6 +1,7 @@
-import { Either, left, right } from '@/monad/either';
-import Ajv from 'ajv';
+import { Either } from '@/monad/either';
+import * as either from '@/monad/either';
 import type { JTDSchemaType } from 'ajv/dist/jtd';
+import Ajv from 'ajv';
 
 export type MetaFile = Readonly<{
   title: string;
@@ -28,6 +29,6 @@ const validate = ajv.compile<MetaFile>(schema);
 
 export function validateMetaFile(meta: object): Either<string, MetaFile> {
   return validate(meta)
-    ? right(meta)
-    : left(`Invalid post metadata! Errors: ${validate.errors}`);
+    ? either.right(meta)
+    : either.left(`Invalid post metadata! Errors: ${validate.errors}`);
 }

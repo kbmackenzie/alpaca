@@ -1,5 +1,5 @@
 import { parseImagePath, shouldTransform } from '@/parse/image-path';
-import { isLeft } from '@/monad/either';
+import * as either from '@/monad/either';
 import { Root } from 'mdast';
 import { visit } from 'unist-util-visit';
 import { join } from 'node:path/posix';
@@ -16,7 +16,7 @@ export function resolveImageAlias(options?: Options): (tree: Root) => void {
       if (!shouldTransform(node.url)) return;
 
       const relative = parseImagePath(node.url);
-      if (isLeft(relative)) {
+      if (either.isLeft(relative)) {
         return; /* todo: handle gracefully. */
       }
       node.url = join(options.imageRoot, relative.value);
