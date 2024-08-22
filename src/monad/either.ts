@@ -4,6 +4,7 @@ export type Either<E, A> =
   | Readonly<{ type: 'left' , value: E }>
   | Readonly<{ type: 'right', value: A }>;
 
+/* Equivalent to Haskell's 'pure' function from the Applicative typeclass. */
 export function pure<E, A>(value: A): Either<E, A> {
   return {
     type: 'right',
@@ -11,20 +12,23 @@ export function pure<E, A>(value: A): Either<E, A> {
   };
 }
 
+/* Equivalent to Haskell's '>>=' function from the Monad typeclass. */
 export function bind<E, A, B>(m: Either<E, A>, f: (value: A) => Either<E, B>): Either<E, B> {
   if (m.type === 'left') return m;
   return f(m.value);
 }
 
+/* Equivalent to Haskell's '>>' function from the Monad typeclass. */
 export function then<E, A, B>(ma: Either<E, A>, mb: Either<E, B>): Either<E, B> {
   return bind(ma, _ => mb);
 }
 
+/* Equivalent to Haskell's 'fmap' function from the Functor typeclass. */
 export function fmap<E, A, B>(f: (value: A) => B, m: Either<E, A>): Either<E, B> {
   return bind(m, (a) => pure(f(a)));
 }
 
-/* Equivalent to Haskell's '<*' function. */
+/* Equivalent to Haskell's '<*' function from the Applicative typeclass. */
 export function after<E, A, B>(ma: Either<E, A>, mb: Either<E, B>): Either<E, A> {
   return bind(ma, (a) => bind(mb, _ => pure(a)));
 }

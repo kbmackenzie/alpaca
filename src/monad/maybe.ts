@@ -2,6 +2,7 @@ export type Maybe<A> =
   | Readonly<{ type: 'just', value: A }>
   | Readonly<{ type: 'nothing' }>;
 
+/* Equivalent to Haskell's 'pure' function from the Applicative typeclass. */
 export function pure<A>(value: A): Maybe<A> {
   return {
     type: 'just',
@@ -9,15 +10,18 @@ export function pure<A>(value: A): Maybe<A> {
   };
 }
 
+/* Equivalent to Haskell's '>>=' function from the Monad typeclass. */
 export function bind<A, B>(m: Maybe<A>, f: (a: A) => Maybe<B>): Maybe<B> {
   if (m.type === 'nothing') return m;
   return f(m.value);
 }
 
+/* Equivalent to Haskell's '>>' function from the Monad typeclass. */
 export function then<A, B>(ma: Maybe<A>, mb: Maybe<B>): Maybe<B> {
   return bind(ma, _ => mb);
 }
 
+/* Equivalent to Haskell's 'fmap' function from the Functor typeclass. */
 export function fmap<A, B>(f: (a: A) => B, ma: Maybe<A>): Maybe<B> {
   return bind(ma, (a) => pure(f(a)));
 }
