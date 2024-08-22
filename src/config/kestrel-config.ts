@@ -3,7 +3,7 @@ export type KestrelConfig = {
   neverInferDate?: boolean;
   optimizeImages?: boolean;
   images?: {
-    resolveAlias: boolean;
+    resolveAlias?: boolean;
     imageRoot: string;
   },
   imageExtensions?: string[];
