@@ -1,7 +1,6 @@
 import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
-import { copyFile } from 'node:fs/promises';
-import { readFile, stat } from 'node:fs/promises';
+import { readFile, copyFile, stat } from 'node:fs/promises';
 import { Stats } from 'node:fs';
 
 export async function tryReadFile(path: string): Promise<Either<string, Buffer>> {
