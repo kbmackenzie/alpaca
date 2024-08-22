@@ -10,7 +10,7 @@ import { MatterData, yamlMatter } from '@/safe/matter';
 import { join } from 'node:path';
 import { existsSync } from 'node:fs';
 
-type PostData = Readonly<{
+export type PostData = Readonly<{
   meta: MetaFile;
   body: string;
 }>;
