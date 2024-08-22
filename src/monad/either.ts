@@ -33,6 +33,15 @@ export function after<E, A, B>(ma: Either<E, A>, mb: Either<E, B>): Either<E, A>
   return bind(ma, (a) => bind(mb, _ => pure(a)));
 }
 
+export async function bindAsync<E, A, B>(
+  promiseM: Promise<Either<E, A>>,
+  f: (a: A) => Promise<Either<E, B>>
+): Promise<Either<E, B>> {
+  const m = await promiseM;
+  if (m.type === 'left') return m;
+  return f(m.value);
+}
+
 export function left<E, A>(e: E): Either<E, A> {
   return {
     type: 'left',
