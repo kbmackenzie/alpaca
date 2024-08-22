@@ -1,3 +1,5 @@
+import { Either } from '@/monad/either';
+import * as either from '@/monad/either';
 import { postContents } from '@/constants';
 import { opendir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
@@ -12,6 +14,16 @@ type Searcher = Readonly<{
   root:  string;
   posts: PostInfo[];
 }>;
+
+export async function tryFindPosts(root: string): Promise<Either<string, PostInfo[]>> {
+  try {
+    const posts = await findPosts(root);
+    return either.right<string, PostInfo[]>(posts);
+  }
+  catch (error) {
+    return either.left<string, PostInfo[]>(`Error when looking for posts in path "${root}": ${String(error)}`);
+  }
+}
 
 export async function findPosts(root: string): Promise<PostInfo[]> {
   const traversal = await traverseRoot(root);
