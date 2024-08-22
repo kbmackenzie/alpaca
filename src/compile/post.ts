@@ -7,9 +7,11 @@ import { PostInfo } from '@/traverse/find-posts';
 import { PostData, readPostData } from '@/traverse/read-post';
 
 export async function compilePost(info: PostInfo): Promise<Either<string, string>> {
-  const postData = await readPostData(info.path)
-  const fullPost = postData.type === 'left' ? postData : await createPost(info, postData.value);
-  return either.fmap(post => JSON.stringify(post), fullPost);
+  const postM = await either.bindAsync(
+    readPostData(info.path),
+    (postData) => createPost(info, postData)
+  );
+  return either.fmap(post => JSON.stringify(post), postM);
 }
 
 export async function createPost(post: PostInfo, data: PostData): Promise<Either<string, Post>> {
