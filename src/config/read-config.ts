@@ -15,15 +15,11 @@ const schema: JTDSchemaType<KestrelConfig> = {
         images: { type: 'string' },
       },
     },
-    appendDate: { type: 'boolean' },
     neverInferDate: { type: 'boolean' },
     optimizeImages: { type: 'boolean' },
     images: {
       properties: {
         imageRoot: { type: 'string' },
-      },
-      optionalProperties: {
-        resolveAlias: { type: 'boolean' },
       },
     },
     imageExtensions: { elements: { type: 'string' } },

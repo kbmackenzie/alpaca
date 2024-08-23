@@ -10,7 +10,6 @@ export type OptionMap = Partial<{
   'root': string,
   'posts': string,
   'images': string,
-  'append-date': boolean;
   'never-infer-date': boolean;
   'optimize-images': boolean;
   'image-root': string;
@@ -33,11 +32,9 @@ export function parseOptions(options: OptionMap): KestrelConfig {
       posts:  options['posts']  ?? defaultPostFolder(root),
       images: options['images'] ?? defaultImageFolder(root),
     },
-    appendDate: options['append-date'],
     neverInferDate: options['never-infer-date'],
     optimizeImages: options['optimize-images'],
     images: options['image-root'] ? {
-      resolveAlias: !!options['image-root'],
       imageRoot: options['image-root']
     } : undefined,
     imageExtensions: options['image-extensions']
