@@ -62,3 +62,10 @@ export function isRight<E, A>(m: Either<E, A>): m is { type: 'right', value: A }
 export function pipe<E, A>(initial: Either<E, A>, ...fs: ((a: A) => Either<E, A>)[]): Either<E, A> {
   return fs.reduce((acc, f) => bind(acc, f), initial);
 }
+
+export function toThrow<A>(m: Either<string, A>): A {
+  if (m.type === 'left') {
+    throw new Error(m.value);
+  }
+  return m.value;
+}
