@@ -5,6 +5,9 @@ import type { JTDSchemaType } from 'ajv/dist/core';
 import Ajv from 'ajv';
 
 const schema: JTDSchemaType<KestrelConfig> = {
+  properties: {
+    root: { type: 'string' },
+  },
   optionalProperties: {
     output: {
       optionalProperties: {
