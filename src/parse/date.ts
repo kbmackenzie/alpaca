@@ -89,7 +89,7 @@ async function inferPostDate(folder: string): Promise<Either<string, Date>> {
 }
 
 function createDate({ day, month, year }: Day, { hours, minutes }: Time): Either<string, Date> {
-  return either.right(new Date(day, month - 1, year, hours, minutes));
+  return either.right(new Date(year, day, month - 1, hours, minutes));
 }
 
 function getYear(year: string): number {
