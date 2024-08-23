@@ -8,6 +8,7 @@ import { PostInfo } from '@/traverse/find-posts';
 import { PostData, readPostData } from '@/traverse/read-post';
 import { resolveImageAlias } from '@/markdown/image-alias';
 import { remark } from 'remark';
+import path from 'node:path';
 
 export async function compilePost(
   config: KestrelConfig,
@@ -36,7 +37,7 @@ export async function createPost(
       tags: postData.tags ?? [],
     })
   );
-  const bodyM = await transformContent(config, postData.content);
+  const bodyM = await transformContent(config, id, postData.content);
   return either.bind(metaM, meta => either.bind(bodyM, body => either.right<string, Post>({
     metadata: meta,
     body: body,
@@ -45,13 +46,14 @@ export async function createPost(
 
 export async function transformContent(
   config: KestrelConfig,
+  id: string,
   content: string,
 ): Promise<Either<string, string>> {
   if (!config.images?.imageRoot) {
     return either.right(content);
   }
   const rem = remark().use(resolveImageAlias, {
-    imageRoot: config.images.imageRoot,
+    imageRoot: path.join(config.images.imageRoot, id),
   });
   const file = await rem.process(content);
   return either.right(String(file));
