@@ -10,9 +10,8 @@ import { MatterData, yamlMatter } from '@/safe/matter';
 import { join } from 'node:path';
 import { existsSync } from 'node:fs';
 
-export type PostData = Readonly<{
-  meta: MetaFile;
-  body: string;
+export type PostData = MetaFile & Readonly<{
+  content: string;
 }>;
 
 type ContentFile = Readonly<{
@@ -35,8 +34,8 @@ export async function readPostData(folder: string): Promise<Either<string, PostD
       { title: 'untitled' },
     );
     return either.right<string, PostData>({
-      meta: allMeta,
-      body: content.rest,
+      ...allMeta,
+      content: content.rest,
     });
   }));
 }

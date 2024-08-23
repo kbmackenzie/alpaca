@@ -27,16 +27,16 @@ export async function createPost(
 ): Promise<Either<string, Post>> {
   const id = toPostID(info.relative);
   const metaM = await either.bindAsync(
-    getPostDate(info.path, postData.meta.date),
+    getPostDate(info.path, postData.date),
     async (date) => either.right<string, PostMetadata>({
-      title: postData.meta.title,
+      title: postData.title,
       id: id,
       timestamp: date.getTime(),
-      description: postData.meta.description ?? '',
-      tags: postData.meta.tags ?? [],
+      description: postData.description ?? '',
+      tags: postData.tags ?? [],
     })
   );
-  const bodyM = await transformContent(config, postData.body);
+  const bodyM = await transformContent(config, postData.content);
   return either.bind(metaM, meta => either.bind(bodyM, body => either.right<string, Post>({
     metadata: meta,
     body: body,
