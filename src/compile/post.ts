@@ -28,7 +28,7 @@ export async function createPost(
 ): Promise<Either<string, Post>> {
   const id = toPostID(info.relative);
   const metaM = await either.bindAsync(
-    getPostDate(info.path, postData.date),
+    getPostDate(config, info.path, postData.date),
     async (date) => either.right<string, PostMetadata>({
       title: postData.title,
       id: id,
