@@ -32,3 +32,11 @@ export const defaultConfig: KestrelConfig = {
   optimizeImages: false,
   imageExtensions: defaultImageExtensions,
 };
+
+export function getPostFolder(config: KestrelConfig): string {
+  return config.output?.posts ?? defaultPostFolder(config.root);
+}
+
+export function getImageFolder(config: KestrelConfig): string {
+  return config.output?.images ?? defaultImageFolder(config.root);
+}
