@@ -22,4 +22,18 @@ describe('parse post date', () => {
     expect(date.getMinutes()).toBe(expected.getMinutes());
     expect(date.getTime()).toBe(expected.getTime());
   });
+
+  const invalidDates: string[][] = [
+    '08-23-24',
+    '3:37am',
+    '08-24-243:37am',
+    '08/23/24 3:37am',
+    '08-23-24 3:37',
+    '08-23-24 3:37mm',
+  ].map(x => [x]);
+
+  test.each(invalidDates)('results in a parser failure', (input) => {
+    const parse = () => either.toThrow(parsePostDate(input));
+    expect(parse).toThrow();
+  });
 });
