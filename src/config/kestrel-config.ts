@@ -12,6 +12,7 @@ export type KestrelConfig = {
     imageRoot: string;
   },
   imageExtensions?: string[];
+  quiet?: boolean;
 };
 
 export const defaultRoot = '.';
@@ -28,6 +29,7 @@ export const defaultConfig: KestrelConfig = {
   neverInferDate: false,
   optimizeImages: false,
   imageExtensions: defaultImageExtensions,
+  quiet: false,
 };
 
 export function getPostFolder(config: KestrelConfig): string {

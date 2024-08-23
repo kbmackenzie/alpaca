@@ -23,6 +23,7 @@ const schema: JTDSchemaType<KestrelConfig> = {
       },
     },
     imageExtensions: { elements: { type: 'string' } },
+    quiet: { type: 'boolean' },
   },
   additionalProperties: false,
 };

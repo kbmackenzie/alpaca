@@ -14,6 +14,7 @@ export type OptionMap = Partial<{
   'optimize-images': boolean;
   'image-root': string;
   'image-extensions': string;
+  'quiet': boolean;
 }>;
 
 /* Assumes argument array option like: 'a,b,c,d'.
@@ -40,5 +41,6 @@ export function parseOptions(options: OptionMap): KestrelConfig {
     imageExtensions: options['image-extensions']
       ? parseArray(options['image-extensions'])
       : defaultImageExtensions,
+    quiet: options['quiet'],
   };
 }
