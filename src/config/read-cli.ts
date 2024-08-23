@@ -1,6 +1,8 @@
 import { defaultImageExtensions, KestrelConfig } from '@/config/kestrel-config';
 
 export type OptionMap = Partial<{
+  'posts': string,
+  'images': string,
   'append-date': boolean;
   'never-infer-date': boolean;
   'optimize-images': boolean;
@@ -18,6 +20,10 @@ function parseArray(arg: string): string[] {
 /* Parse options received from a Commander options object. */
 export function parseOptions(options: OptionMap): KestrelConfig {
   return {
+    output: {
+      posts:  options['posts'],
+      images: options['images'],
+    },
     appendDate: options['append-date'],
     neverInferDate: options['never-infer-date'],
     optimizeImages: options['optimize-images'],

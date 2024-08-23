@@ -1,4 +1,8 @@
 export type KestrelConfig = {
+  output?: {
+    posts?:  string;
+    images?: string;
+  },
   appendDate?: boolean;
   neverInferDate?: boolean;
   optimizeImages?: boolean;
@@ -11,6 +15,10 @@ export type KestrelConfig = {
 
 export const defaultImageExtensions = ['png', 'jpg', 'webp', 'gif', 'bmp'];
 export const defaultConfig: KestrelConfig = {
+  output: {
+    posts:  './blog'  ,
+    images: './images',
+  },
   appendDate: false,
   neverInferDate: false,
   optimizeImages: false,

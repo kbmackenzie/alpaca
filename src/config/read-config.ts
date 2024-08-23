@@ -6,6 +6,12 @@ import Ajv from 'ajv';
 
 const schema: JTDSchemaType<KestrelConfig> = {
   optionalProperties: {
+    output: {
+      optionalProperties: {
+        posts:  { type: 'string' },
+        images: { type: 'string' },
+      },
+    },
     appendDate: { type: 'boolean' },
     neverInferDate: { type: 'boolean' },
     optimizeImages: { type: 'boolean' },
