@@ -25,8 +25,8 @@ export async function runAction(action: Action): Promise<void> {
   const cwd    = process.cwd();
   const config = await readConfig(cwd);
 
-  const quiet  = either.fromEither(config, false, config => config.quiet);
-  const dest   = either.fromEither(config, cwd  , config => config.root );
+  const quiet  = either.fromEither(config, false, config => config.quiet      );
+  const dest   = either.fromEither(config, cwd  , config => config.destination);
 
   const logger = initLogger(dest, quiet);
   if (config.type === 'left') {

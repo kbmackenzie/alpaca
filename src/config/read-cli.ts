@@ -1,13 +1,13 @@
 import {
   KestrelConfig,
-  defaultRoot, 
+  defaultDestination, 
   defaultPostFolder,
   defaultImageFolder,
   defaultImageExtensions,
 } from '@/config/kestrel-config';
 
 export type OptionMap = Partial<{
-  'root': string,
+  'destination': string,
   'posts': string,
   'images': string,
   'never-infer-date': boolean;
@@ -26,9 +26,9 @@ function parseArray(arg: string): string[] {
 
 /* Parse options received from a Commander options object. */
 export function parseOptions(options: OptionMap): KestrelConfig {
-  const root = options['root'] || defaultRoot;
+  const root = options['destination'] || defaultDestination;
   return {
-    root: root,
+    destination: root,
     output: {
       posts:  options['posts']  ?? defaultPostFolder(root),
       images: options['images'] ?? defaultImageFolder(root),

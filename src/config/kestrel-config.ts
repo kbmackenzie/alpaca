@@ -1,7 +1,7 @@
 import path from 'node:path';
 
 export type KestrelConfig = {
-  root: string;
+  destination: string;
   output?: {
     posts?:  string;
     images?: string;
@@ -15,13 +15,13 @@ export type KestrelConfig = {
   quiet?: boolean;
 };
 
-export const defaultRoot = '.';
+export const defaultDestination = '.';
 export const defaultPostFolder  = (root: string) => path.join(root, 'posts' );
 export const defaultImageFolder = (root: string) => path.join(root, 'images');
 
 export const defaultImageExtensions = ['png', 'jpg', 'webp', 'gif', 'bmp'];
 export const defaultConfig: KestrelConfig = {
-  root: '.',
+  destination: '.',
   output: {
     posts:  './posts' ,
     images: './images',
@@ -33,9 +33,9 @@ export const defaultConfig: KestrelConfig = {
 };
 
 export function getPostFolder(config: KestrelConfig): string {
-  return config.output?.posts ?? defaultPostFolder(config.root);
+  return config.output?.posts ?? defaultPostFolder(config.destination);
 }
 
 export function getImageFolder(config: KestrelConfig): string {
-  return config.output?.images ?? defaultImageFolder(config.root);
+  return config.output?.images ?? defaultImageFolder(config.destination);
 }
