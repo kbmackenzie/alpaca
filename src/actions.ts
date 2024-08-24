@@ -34,7 +34,7 @@ export async function runAction(action: Action): Promise<void> {
     process.exit(1); /* Exit with failure code 1. */
   }
   try {
-    await actionTable[action](config.value);
+    await actionTable[action](config.value, logger);
   }
   catch (error) {
     logger.error(String(error));
