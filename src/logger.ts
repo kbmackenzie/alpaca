@@ -1,8 +1,7 @@
-import { KestrelConfig } from '@/config/kestrel-config';
 import winston, { Logger }  from 'winston';
 import path from 'node:path';
 
-export function initLogger(config: KestrelConfig): Logger {
+export function initLogger(destination: string, quiet: boolean = false): Logger {
   return winston.createLogger({
     transports: [
       new winston.transports.Console({
@@ -10,11 +9,11 @@ export function initLogger(config: KestrelConfig): Logger {
           winston.format.colorize(),
           winston.format.simple(),
         ),
-        level: config.quiet ? 'error' : 'info',
+        level: quiet ? 'error' : 'info',
       }),
       new winston.transports.File({
         format: winston.format.json(),
-        filename: path.join(config.root, 'kestrel-log.log'),
+        filename: path.join(destination, 'kestrel-log.log'),
         level: 'info',
       }),
     ],
