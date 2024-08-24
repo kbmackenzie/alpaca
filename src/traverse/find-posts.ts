@@ -11,32 +11,32 @@ export type PostInfo = Readonly<{
 }>;
 
 type Searcher = Readonly<{
-  root:  string;
+  start: string;
   posts: PostInfo[];
 }>;
 
-export async function tryFindPosts(root: string): Promise<Either<string, PostInfo[]>> {
+export async function tryFindPosts(start: string): Promise<Either<string, PostInfo[]>> {
   try {
-    const posts = await findPosts(root);
+    const posts = await findPosts(start);
     return either.right<string, PostInfo[]>(posts);
   }
   catch (error) {
-    return either.left<string, PostInfo[]>(`Error when looking for posts in path "${root}": ${String(error)}`);
+    return either.left<string, PostInfo[]>(`Error when looking for posts in path "${start}": ${String(error)}`);
   }
 }
 
-export async function findPosts(root: string): Promise<PostInfo[]> {
-  const traversal = await traverseRoot(root);
+export async function findPosts(start: string): Promise<PostInfo[]> {
+  const traversal = await traverseFolders(start);
   return traversal.posts;
 }
 
 /* The voyage to the corner of the globe is a real trip. */
-async function traverseRoot(root: string): Promise<Searcher> {
+async function traverseFolders(start: string): Promise<Searcher> {
   const searcher: Searcher = {
-    root:  path.normalize(root),
+    start: path.normalize(start),
     posts: [],
   };
-  await searchPostsDFS(searcher, root);
+  await searchPostsDFS(searcher, start);
   return searcher;
 }
 
@@ -49,7 +49,7 @@ async function searchPostsDFS(searcher: Searcher, folder: string): Promise<void>
     const entryPath = path.join(folder, entry.name);
 
     if (isPostFolder(entryPath)) {
-      const relative = path.relative(searcher.root, entryPath);
+      const relative = path.relative(searcher.start, entryPath);
       searcher.posts.push({
         path: entryPath,
         relative: relative,

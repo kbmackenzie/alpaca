@@ -26,12 +26,12 @@ function parseArray(arg: string): string[] {
 
 /* Parse options received from a Commander options object. */
 export function parseOptions(options: OptionMap): KestrelConfig {
-  const root = options['destination'] || defaultDestination;
+  const dest = options['destination'] || defaultDestination;
   return {
-    destination: root,
+    destination: dest,
     output: {
-      posts:  options['posts']  ?? defaultPostFolder(root),
-      images: options['images'] ?? defaultImageFolder(root),
+      posts:  options['posts']  ?? defaultPostFolder(dest),
+      images: options['images'] ?? defaultImageFolder(dest),
     },
     neverInferDate: options['never-infer-date'],
     optimizeImages: options['optimize-images'],

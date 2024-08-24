@@ -14,11 +14,11 @@ import {copyImages} from '@/traverse/find-images';
 
 export async function writeAll(
   config: KestrelConfig,
-  root: string,
+  folder: string,
   logger?: Logger
 ): Promise<void> {
-  logger?.info(`Searching for posts in path "${root}"...`);
-  const postInfos = await findPosts(root)
+  logger?.info(`Searching for posts in path "${folder}"...`);
+  const postInfos = await findPosts(folder)
     .then(posts => nubBy(posts, post => post.path));
 
   logger?.info(`Found ${postInfos.length} posts!`);

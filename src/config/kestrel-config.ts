@@ -16,8 +16,8 @@ export type KestrelConfig = {
 };
 
 export const defaultDestination = '.';
-export const defaultPostFolder  = (root: string) => path.join(root, 'posts' );
-export const defaultImageFolder = (root: string) => path.join(root, 'images');
+export const defaultPostFolder  = (dest: string) => path.join(dest, 'posts' );
+export const defaultImageFolder = (dest: string) => path.join(dest, 'images');
 
 export const defaultImageExtensions = ['png', 'jpg', 'webp', 'gif', 'bmp'];
 export const defaultConfig: KestrelConfig = {
