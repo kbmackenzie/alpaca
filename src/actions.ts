@@ -38,8 +38,12 @@ const actionTable: Record<Action, ActionFn> = {
   },
 };
 
-export async function runAction(action: Action, options?: Partial<KestrelConfig>): Promise<void> {
-  const pwd    = process.cwd();
+export async function runAction(
+  action: Action,
+  folder?: string,
+  options?: Partial<KestrelConfig>
+): Promise<void> {
+  const pwd    = folder ?? process.cwd();
   const config = either.fmap(
     config => ({ ...config, ...options }),
     await readConfig(pwd)
