@@ -1,4 +1,4 @@
-import { KestrelConfig, prettyPrint } from '@/config/kestrel-config';
+import { KestrelConfig, prettyConfig } from '@/config/kestrel-config';
 import * as either from '@/monad/either';
 import { readConfig } from '@/config/read-config';
 import { initLogger } from '@/logger';
@@ -30,7 +30,7 @@ const actionTable: Record<Action, ActionFn> = {
     process.stdout.write(message + '\n');
   },
   'status': async (config, pwd) => {
-    const message = prettyPrint(config);
+    const message = prettyConfig(config);
     process.stdout.write(message + '\n');
 
     const posts = await findPosts(pwd);

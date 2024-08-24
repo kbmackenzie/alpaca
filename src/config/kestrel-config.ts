@@ -40,7 +40,7 @@ export function getImageFolder(config: KestrelConfig): string {
   return config.folders?.images ?? defaultImageFolder(config.destination);
 }
 
-export function prettyPrint(config: KestrelConfig): string {
+export function prettyConfig(config: KestrelConfig): string {
   return [
     `destination: ${config.destination}`,
     `  posts:  ${getPostFolder(config)}`,
