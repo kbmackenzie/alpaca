@@ -9,10 +9,10 @@ import path from 'node:path';
 
 const schema: JTDSchemaType<KestrelConfig> = {
   properties: {
-    root: { type: 'string' },
+    destination: { type: 'string' },
   },
   optionalProperties: {
-    output: {
+    folders: {
       optionalProperties: {
         posts:  { type: 'string' },
         images: { type: 'string' },
