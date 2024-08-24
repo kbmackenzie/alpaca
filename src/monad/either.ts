@@ -63,9 +63,16 @@ export function pipe<E, A>(initial: Either<E, A>, ...fs: ((a: A) => Either<E, A>
   return fs.reduce((acc, f) => bind(acc, f), initial);
 }
 
-export function toThrow<A>(m: Either<string, A>): A {
-  if (m.type === 'left') {
-    throw new Error(m.value);
+export function toThrow<T, A>(m: (t: T) => Either<string, A>): (t: T) => A;
+export function toThrow<T, A>(m: Either<string, A>): A;
+export function toThrow<T, A>(m: ((t: T) => Either<string, A>) | Either<string, A>): (A | ((t: T) => A)) {
+  if (typeof m === 'function') {
+    return (t) => {
+      const a = m(t);
+      if (a.type === 'left') { throw new Error(a.value); }
+      return a.value;
+    };
   }
+  if (m.type === 'left') { throw new Error(m.value); }
   return m.value;
 }
