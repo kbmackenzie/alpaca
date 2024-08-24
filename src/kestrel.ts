@@ -1,3 +1,5 @@
+#!/bin/env node
+
 import { Command } from 'commander';
 import { parseOptions } from '@/config/read-cli';
 import { runAction } from '@/actions';
@@ -43,3 +45,5 @@ program.command('status')
     const config = parseOptions(options);
     return runAction('status', folder, config);
   });
+
+program.parse();
