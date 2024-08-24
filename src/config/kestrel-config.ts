@@ -41,12 +41,14 @@ export function getImageFolder(config: KestrelConfig): string {
 }
 
 export function prettyConfig(config: KestrelConfig): string {
+  const imageExtensions = config.imageExtensions ?? defaultImageExtensions;
   return [
     `destination: ${config.destination}`,
     `  posts:  ${getPostFolder(config)}`,
     `  images: ${getImageFolder(config)}`,
     '',
     `infer date: ${config.neverInferDate ? 'never' : 'when needed'}`,
-    `resolve image aliases: ${config.images?.imageRoot ? 'yes' : 'no'}`,
+    `resolve image alias: ${config.images?.imageRoot ? 'yes' : 'no'}`,
+    `image extensions: ${imageExtensions.map(ext => `'.${ext}'`).join(', ')}`,
   ].join('\n');
 }
