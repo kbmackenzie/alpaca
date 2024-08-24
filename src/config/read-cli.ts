@@ -29,7 +29,7 @@ export function parseOptions(options: OptionMap): KestrelConfig {
   const dest = options['destination'] || defaultDestination;
   return {
     destination: dest,
-    output: {
+    folders: {
       posts:  options['posts']  ?? defaultPostFolder(dest),
       images: options['images'] ?? defaultImageFolder(dest),
     },

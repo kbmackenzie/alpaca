@@ -2,7 +2,7 @@ import path from 'node:path';
 
 export type KestrelConfig = {
   destination: string;
-  output?: {
+  folders?: {
     posts?:  string;
     images?: string;
   },
@@ -22,7 +22,7 @@ export const defaultImageFolder = (dest: string) => path.join(dest, 'images');
 export const defaultImageExtensions = ['png', 'jpg', 'webp', 'gif', 'bmp'];
 export const defaultConfig: KestrelConfig = {
   destination: '.',
-  output: {
+  folders: {
     posts:  './posts' ,
     images: './images',
   },
@@ -33,9 +33,9 @@ export const defaultConfig: KestrelConfig = {
 };
 
 export function getPostFolder(config: KestrelConfig): string {
-  return config.output?.posts ?? defaultPostFolder(config.destination);
+  return config.folders?.posts ?? defaultPostFolder(config.destination);
 }
 
 export function getImageFolder(config: KestrelConfig): string {
-  return config.output?.images ?? defaultImageFolder(config.destination);
+  return config.folders?.images ?? defaultImageFolder(config.destination);
 }
