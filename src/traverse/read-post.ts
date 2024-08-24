@@ -5,7 +5,7 @@ import { Maybe } from '@/monad/maybe';
 import * as maybe from '@/monad/maybe';
 import { postContents, postMetaFile } from '@/constants';
 import { tryReadFile } from '@/safe/io';
-import { readYaml } from '@/safe/yaml';
+import { tryReadYaml } from '@/safe/yaml';
 import { MatterData, yamlMatter } from '@/safe/matter';
 import { join } from 'node:path';
 import { existsSync } from 'node:fs';
@@ -48,7 +48,7 @@ async function readMeta(folder: string): Promise<Either<string, Maybe<MetaFile>>
   const bound = either.bind(
     await tryReadFile(path),
     buffer => either.bind(
-      readYaml(path, buffer.toString()),
+      tryReadYaml(path, buffer.toString()),
       data => validateMetaFile(data),
     )
   );

@@ -2,7 +2,7 @@ import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
 import { parse } from 'yaml';
 
-export function readYaml(path: string, content: string): Either<string, any> {
+export function tryReadYaml(path: string, content: string): Either<string, any> {
   try {
     const data = parse(content);
     return either.right(data);

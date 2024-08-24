@@ -4,7 +4,7 @@ import * as either from '@/monad/either';
 import type { JTDSchemaType } from 'ajv/dist/core';
 import Ajv from 'ajv';
 import { tryReadFile } from '@/safe/io';
-import { readYaml } from '@/safe/yaml';
+import { tryReadYaml } from '@/safe/yaml';
 import path from 'node:path';
 
 const schema: JTDSchemaType<KestrelConfig> = {
@@ -46,7 +46,7 @@ export async function readConfig(root: string): Promise<Either<string, KestrelCo
   return either.bindAsync(
     tryReadFile(kestrel),
     async (buffer) => either.bind(
-      readYaml(kestrel, buffer.toString()),
+      tryReadYaml(kestrel, buffer.toString()),
       (data) => validateConfig(data)
     )
   );
