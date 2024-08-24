@@ -38,10 +38,12 @@ const actionTable: Record<Action, ActionFn> = {
   },
 };
 
-export async function runAction(action: Action): Promise<void> {
+export async function runAction(action: Action, options?: Partial<KestrelConfig>): Promise<void> {
   const pwd    = process.cwd();
-  const config = await readConfig(pwd);
-
+  const config = either.fmap(
+    config => ({ ...config, ...options }),
+    await readConfig(pwd)
+  );
   const quiet  = either.fromEither(config, false, config => config.quiet      );
   const dest   = either.fromEither(config, pwd  , config => config.destination);
 
