@@ -3,6 +3,8 @@ import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
 import type { JTDSchemaType } from 'ajv/dist/core';
 import Ajv from 'ajv';
+import { tryReadFile } from '@/safe/io';
+import { tryParseJson } from '@/safe/json';
 
 const schema: JTDSchemaType<KestrelConfig> = {
   properties: {
@@ -36,4 +38,14 @@ export function validateConfig(config: object, useDefault?: boolean): Either<str
   return validate(config)
     ? either.right(config)
     : either.left(`Invalid config data! Errors: ${validate.errors}`);
+}
+
+export async function readConfig(root: string): Promise<Either<string, KestrelConfig>> {
+  return either.bindAsync(
+    tryReadFile(root),
+    async (buffer) => either.bind(
+      tryParseJson(buffer.toString()),
+      (data) => validateConfig(data)
+    )
+  );
 }
