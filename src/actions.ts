@@ -1,34 +1,49 @@
-import { KestrelConfig } from '@/config/kestrel-config';
-import { Either } from '@/monad/either';
+import { KestrelConfig, prettyPrint } from '@/config/kestrel-config';
 import * as either from '@/monad/either';
 import { readConfig } from '@/config/read-config';
 import { initLogger } from '@/logger';
-import { compilePost } from '@/compile/post';
+import { writeAll } from '@/writer/write-all';
 import { Logger } from 'winston';
+import { findPosts } from '@/traverse/find-posts';
+import {toPostID} from '@/post/id';
 
 /* All action functions are allowed to throw.
  * They're safely handled. */
 
-export type Action = 'build' | 'ls' | 'stat';
-type ActionFn = (config: KestrelConfig, logger?: Logger) => Promise<void>;
+export type Action = 'build' | 'list' | 'status';
+type ActionFn = (config: KestrelConfig, pwd: string, logger?: Logger) => Promise<void>;
 
-const actionSet = new Set<Action>(['build', 'ls', 'stat']);
+const actionSet = new Set<Action>(['build', 'list', 'status']);
 
 const actionTable: Record<Action, ActionFn> = {
-  'build': async (config, logger) => {
+  'build': async (config, pwd, logger) => {
+    await writeAll(config, pwd, logger);
   },
-  'ls':    async (config, logger) => {
+  'list': async (_, pwd) => {
+    const posts   = await findPosts(pwd);
+    const message = posts
+      .map(post => {
+        const id = toPostID(post.relative);
+        return `- ${id}: "${post.relative}"`;
+      })
+      .join('\n');
+    process.stdout.write(message + '\n');
   },
-  'stat':  async (config, logger) => {
+  'status': async (config, pwd) => {
+    const message = prettyPrint(config);
+    process.stdout.write(message + '\n');
+
+    const posts = await findPosts(pwd);
+    process.stdout.write(`posts found: ${posts.length}\n`);
   },
 };
 
 export async function runAction(action: Action): Promise<void> {
-  const cwd    = process.cwd();
-  const config = await readConfig(cwd);
+  const pwd    = process.cwd();
+  const config = await readConfig(pwd);
 
   const quiet  = either.fromEither(config, false, config => config.quiet      );
-  const dest   = either.fromEither(config, cwd  , config => config.destination);
+  const dest   = either.fromEither(config, pwd  , config => config.destination);
 
   const logger = initLogger(dest, quiet);
   if (config.type === 'left') {
@@ -40,7 +55,7 @@ export async function runAction(action: Action): Promise<void> {
     process.exit(1);
   }
   try {
-    await actionTable[action](config.value, logger);
+    await actionTable[action](config.value, pwd, logger);
   }
   catch (error) {
     logger.error(String(error));
