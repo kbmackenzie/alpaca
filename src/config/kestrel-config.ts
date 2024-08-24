@@ -39,3 +39,14 @@ export function getPostFolder(config: KestrelConfig): string {
 export function getImageFolder(config: KestrelConfig): string {
   return config.folders?.images ?? defaultImageFolder(config.destination);
 }
+
+export function prettyPrint(config: KestrelConfig): string {
+  return [
+    `destination: ${config.destination}`,
+    `  posts:  ${getPostFolder(config)}`,
+    `  images: ${getImageFolder(config)}`,
+    '',
+    `infer date: ${config.neverInferDate ? 'never' : 'when needed'}`,
+    `resolve image aliases: ${config.images?.imageRoot ? 'yes' : 'no'}`,
+  ].join('\n');
+}
