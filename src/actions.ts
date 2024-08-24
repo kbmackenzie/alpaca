@@ -48,17 +48,20 @@ export async function runAction(action: Action): Promise<void> {
   const logger = initLogger(dest, quiet);
   if (config.type === 'left') {
     logger.error(config.value);
-    process.exit(1); /* Exit with failure code 1. */
+    process.exitCode = 1;
+    return;
   }
   if (!actionSet.has(action)) {
     logger.error(`Invalid action: ${action}`);
-    process.exit(1);
+    process.exitCode = 1;
+    return;
   }
   try {
     await actionTable[action](config.value, pwd, logger);
   }
   catch (error) {
     logger.error(String(error));
-    process.exit(1); /* Exit with failure code 1. */
+    process.exitCode = 1;
+    return;
   }
 }
