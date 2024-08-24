@@ -12,6 +12,8 @@ import { Logger } from 'winston';
 export type Action = 'build' | 'ls' | 'stat';
 type ActionFn = (config: KestrelConfig, logger?: Logger) => Promise<void>;
 
+const actionSet = new Set<Action>(['build', 'ls', 'stat']);
+
 const actionTable: Record<Action, ActionFn> = {
   'build': async (config, logger) => {
   },
@@ -32,6 +34,10 @@ export async function runAction(action: Action): Promise<void> {
   if (config.type === 'left') {
     logger.error(config.value);
     process.exit(1); /* Exit with failure code 1. */
+  }
+  if (!actionSet.has(action)) {
+    logger.error(`Invalid action: ${action}`);
+    process.exit(1);
   }
   try {
     await actionTable[action](config.value, logger);
