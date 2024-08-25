@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "main": "./dist/index.js",
+  "bin": "./bin/kestrel",
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.build.json && tsc-alias -fp tsconfig.build.json",
