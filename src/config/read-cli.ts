@@ -13,7 +13,9 @@ export type OptionMap = Partial<{
   'never-infer-date': boolean;
   'optimize-images': boolean;
   'image-root': string;
-  'image-extensions': string;
+ 
+
+ 'image-extensions': string;
   'quiet': boolean;
 }>;
 
@@ -42,5 +44,17 @@ export function parseOptions(options: OptionMap): KestrelConfig {
       ? parseArray(options['image-extensions'])
       : defaultImageExtensions,
     quiet: options['quiet'],
+  };
+}
+
+export function joinConfig(main: KestrelConfig, extra: Partial<KestrelConfig>): KestrelConfig {
+  return {
+    destination:     extra.destination ?? main.destination,
+    folders:         extra.folders ?? main.folders,
+    neverInferDate:  extra.neverInferDate ?? main.neverInferDate,
+    optimizeImages:  extra.optimizeImages ?? main.optimizeImages,
+    images:          extra.images ?? main.images,
+    imageExtensions: extra.imageExtensions ?? main.imageExtensions,
+    quiet:           extra.quiet ?? main.quiet,
   };
 }
