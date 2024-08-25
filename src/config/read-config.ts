@@ -1,7 +1,7 @@
 import { KestrelConfig, defaultConfig } from '@/config/kestrel-config';
 import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
-import type { JTDSchemaType } from 'ajv/dist/core';
+import type { JTDSchemaType } from 'ajv/dist/jtd';
 import Ajv from 'ajv';
 import { tryReadFile } from '@/safe/io';
 import { tryReadYaml } from '@/safe/yaml';
