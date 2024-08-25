@@ -9,9 +9,6 @@ export function run(): void {
     .description('a tiny blog compiler')
     .version('1.0.0')
 
-  program
-    .option('-q, --quiet', 'silence log messages');
-
   program.command('build')
     .description('build blog, compiling posts')
     .argument('[PATH]', 'input folder')
@@ -19,6 +16,7 @@ export function run(): void {
     .option('-p, --posts <PATH>', 'destination folder for posts')
     .option('-i, --images <PATH>', 'destination folder for images')
     .option('-r, --image-root <PATH>', 'how to resolve image path alias "@kestrel"')
+    .option('-q, --quiet', 'silence log messages')
     .option('--never-infer-date', 'never infer post date from file')
     .option('--optimize-images', 'optimize post images when building')
     .option('--image-extensions <EXTS>', 'image extensions to look for, comma-separated')
