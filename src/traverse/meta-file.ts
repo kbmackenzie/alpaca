@@ -1,7 +1,6 @@
 import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
-import type { JTDSchemaType } from 'ajv/dist/jtd';
-import Ajv from 'ajv';
+import Ajv, { JTDSchemaType } from 'ajv/dist/jtd.js';
 
 export type MetaFile = Readonly<{
   title: string;
