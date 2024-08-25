@@ -52,8 +52,8 @@ export function prettyConfig(config: KestrelConfig): string {
     `  images: "${getImageFolder(config)}"`,
     `quiet: ${config.quiet ? 'yes' : 'no'}`,
     `infer date: ${config.neverInferDate ? 'never' : 'as needed'}`,
-    `optimize images: ${yesOrNo(config.optimizeImages)}`,
     `resolve image alias: ${yesOrNo(config.images?.imageRoot)}`,
-    `image extensions: ${imageExtensions.map(ext => `".${ext}"`).join(', ')}`,
+    `optimize images: ${yesOrNo(config.optimizeImages)}`,
+    `image extensions: ${imageExtensions.join(', ')}`,
   ].join('\n');
 }
