@@ -37,7 +37,7 @@ export function validateConfig(config: object, useDefault?: boolean): Either<str
   if (useDefault) return either.right(defaultConfig);
   return validate(config)
     ? either.right(config)
-    : either.left(`Invalid config data! Errors: ${validate.errors}`);
+    : either.left(`Invalid config data! Errors: ${ajv.errorsText(validate.errors)}`);
 }
 
 export async function readConfig(root: string): Promise<Either<string, KestrelConfig>> {
