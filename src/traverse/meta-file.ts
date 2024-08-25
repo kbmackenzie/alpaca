@@ -29,5 +29,5 @@ const validate = ajv.compile<MetaFile>(schema);
 export function validateMetaFile(meta: object): Either<string, MetaFile> {
   return validate(meta)
     ? either.right(meta)
-    : either.left(`Invalid post metadata! Errors: ${validate.errors}`);
+    : either.left(`Invalid post metadata! Errors: ${ajv.errorsText(validate.errors)}`);
 }
