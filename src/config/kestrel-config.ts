@@ -40,15 +40,20 @@ export function getImageFolder(config: KestrelConfig): string {
   return config.folders?.images ?? defaultImageFolder(config.destination);
 }
 
+function yesOrNo(value: any): string {
+  return value ? 'yes' : 'no';
+}
+
 export function prettyConfig(config: KestrelConfig): string {
   const imageExtensions = config.imageExtensions ?? defaultImageExtensions;
   return [
-    `destination: ${config.destination}`,
-    `  posts:  ${getPostFolder(config)}`,
-    `  images: ${getImageFolder(config)}`,
-    '',
-    `infer date: ${config.neverInferDate ? 'never' : 'when needed'}`,
-    `resolve image alias: ${config.images?.imageRoot ? 'yes' : 'no'}`,
-    `image extensions: ${imageExtensions.map(ext => `'.${ext}'`).join(', ')}`,
+    `destination: "${config.destination}"`,
+    `  posts:  "${getPostFolder(config)}"`,
+    `  images: "${getImageFolder(config)}"`,
+    `quiet: ${config.quiet ? 'yes' : 'no'}`,
+    `infer date: ${config.neverInferDate ? 'never' : 'as needed'}`,
+    `optimize images: ${yesOrNo(config.optimizeImages)}`,
+    `resolve image alias: ${yesOrNo(config.images?.imageRoot)}`,
+    `image extensions: ${imageExtensions.map(ext => `".${ext}"`).join(', ')}`,
   ].join('\n');
 }
