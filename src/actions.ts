@@ -6,6 +6,7 @@ import { writeAll } from '@/writer/write-all';
 import { Logger } from 'winston';
 import { findPosts } from '@/traverse/find-posts';
 import {toPostID} from '@/post/id';
+import {joinConfig} from '@/config/read-cli';
 
 /* All action functions are allowed to throw.
  * They're safely handled. */
@@ -45,7 +46,7 @@ export async function runAction(
 ): Promise<void> {
   const pwd    = folder ?? process.cwd();
   const config = either.fmap(
-    config => ({ ...config, ...options }),
+    config => joinConfig(config, options ?? {}),
     await readConfig(pwd)
   );
   const quiet  = either.fromEither(config, false, config => config.quiet      );
