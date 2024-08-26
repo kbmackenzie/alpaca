@@ -11,7 +11,7 @@ export function run(): void {
 
   program.command('build')
     .description('compile all posts, build blog')
-    .argument('[PATH]', 'input folder')
+    .argument('[PATH]', 'input folder', '.')
     .option('-d, --destination <PATH>', 'destination folder')
     .option('-p, --posts <PATH>', 'destination folder for posts')
     .option('-i, --images <PATH>', 'destination folder for images')
@@ -28,7 +28,7 @@ export function run(): void {
   program.command('list')
     .description('list all posts with their IDs')
     .alias('ls')
-    .argument('[PATH]', 'input folder')
+    .argument('[PATH]', 'input folder', '.')
     .action((folder, options) => {
       const config = parseOptions(options);
       return runAction('list', folder, config);
@@ -37,7 +37,7 @@ export function run(): void {
   program.command('status')
     .description('show alpaca status')
     .alias('stat')
-    .argument('[PATH]', 'input folder')
+    .argument('[PATH]', 'input folder', '.')
     .action((folder, options) => {
       const config = parseOptions(options);
       return runAction('status', folder, config);
