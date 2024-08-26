@@ -1,11 +1,11 @@
 import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
-import { KestrelConfig, defaultImageExtensions } from '@/config/kestrel-config';
+import { AlpacaConfig, defaultImageExtensions } from '@/config/alpaca-config';
 import { tryGlob } from '@/safe/glob';
 import { tryCopyFile } from '@/safe/io';
 
 export async function globImages(
-  config: KestrelConfig,
+  config: AlpacaConfig,
   folder: string
 ): Promise<Either<string, string[]>> {
   return tryGlob(folder, {
@@ -16,7 +16,7 @@ export async function globImages(
 }
 
 export async function copyImages(
-  config: KestrelConfig,
+  config: AlpacaConfig,
   from: string,
   to: string
 ): Promise<Either<string, string[]>> {

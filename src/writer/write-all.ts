@@ -1,4 +1,4 @@
-import { KestrelConfig, getImageFolder, getPostFolder } from '@/config/kestrel-config';
+import { AlpacaConfig, getImageFolder, getPostFolder } from '@/config/alpaca-config';
 import * as either from '@/monad/either';
 import { compilePost } from '@/compile/post';
 import { toPostID } from '@/post/id';
@@ -13,7 +13,7 @@ import {copyImages} from '@/traverse/find-images';
  * Do error-handling around them. */
 
 export async function writeAll(
-  config: KestrelConfig,
+  config: AlpacaConfig,
   folder: string,
   logger?: Logger
 ): Promise<void> {
@@ -34,7 +34,7 @@ export async function writeAll(
 }
 
 async function writePosts(
-  config: KestrelConfig,
+  config: AlpacaConfig,
   postInfos: PostInfo[],
   outputFolder: string,
   logger?: Logger
@@ -55,7 +55,7 @@ async function writePosts(
 }
 
 async function writeImages(
-  config: KestrelConfig,
+  config: AlpacaConfig,
   postInfos: PostInfo[],
   outputFolder: string,
   logger?: Logger

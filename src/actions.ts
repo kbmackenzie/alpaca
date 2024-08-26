@@ -1,4 +1,4 @@
-import { KestrelConfig, prettyConfig } from '@/config/kestrel-config';
+import { AlpacaConfig, prettyConfig } from '@/config/alpaca-config';
 import * as either from '@/monad/either';
 import { readConfig } from '@/config/read-config';
 import { initLogger } from '@/logger';
@@ -12,7 +12,7 @@ import {joinConfig} from '@/config/read-cli';
  * They're safely handled. */
 
 export type Action = 'build' | 'list' | 'status';
-type ActionFn = (config: KestrelConfig, pwd: string, logger?: Logger) => Promise<void>;
+type ActionFn = (config: AlpacaConfig, pwd: string, logger?: Logger) => Promise<void>;
 
 const actionSet = new Set<Action>(['build', 'list', 'status']);
 
@@ -42,7 +42,7 @@ const actionTable: Record<Action, ActionFn> = {
 export async function runAction(
   action: Action,
   folder?: string,
-  options?: Partial<KestrelConfig>
+  options?: Partial<AlpacaConfig>
 ): Promise<void> {
   const pwd    = folder ?? process.cwd();
   const config = either.fmap(

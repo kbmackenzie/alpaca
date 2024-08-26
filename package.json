@@ -1,9 +1,9 @@
 {
-  "name": "kestrel",
+  "name": "alpaca",
   "version": "1.0.0",
   "private": true,
   "main": "./dist/index.js",
-  "bin": "./bin/kestrel",
+  "bin": "./bin/alpaca",
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.build.json && tsc-alias -fp tsconfig.build.json",

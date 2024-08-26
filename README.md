@@ -5,14 +5,14 @@ A little blog utility for organizing posts. It converts nested directories of ma
 - [x] Generate unique post ID from file hierarchy (i.e. `2024/a/b/c/` becomes `2024-a-b-c`)
 - [x] Define post date as a pretty human-readable string (i.e. `08/26/2024 8:56AM`)
 - [x] Optionally infer post date from file modification date
-- [x] Supports a path alias for images: `@kestrel/[name].png`
+- [x] Supports a path alias for images: `@alpaca/[name].png`
 
 ## Command-Line Interface
 
-### `kestrel --help`
+### `alpaca --help`
 
-### `kestrel build --help`
+### `alpaca build --help`
 
-### `kestrel list --help`
+### `alpaca list --help`
 
-### `kestrel status --help`
+### `alpaca status --help`

@@ -1,6 +1,6 @@
 import path from 'node:path';
 
-export type KestrelConfig = {
+export type AlpacaConfig = {
   destination: string;
   folders?: {
     posts?:  string;
@@ -20,7 +20,7 @@ export const defaultPostFolder  = (dest: string) => path.join(dest, 'posts' );
 export const defaultImageFolder = (dest: string) => path.join(dest, 'images');
 
 export const defaultImageExtensions = ['png', 'jpg', 'webp', 'gif', 'bmp'];
-export const defaultConfig: KestrelConfig = {
+export const defaultConfig: AlpacaConfig = {
   destination: '.',
   folders: {
     posts:  './posts' ,
@@ -32,11 +32,11 @@ export const defaultConfig: KestrelConfig = {
   quiet: false,
 };
 
-export function getPostFolder(config: KestrelConfig): string {
+export function getPostFolder(config: AlpacaConfig): string {
   return config.folders?.posts ?? defaultPostFolder(config.destination);
 }
 
-export function getImageFolder(config: KestrelConfig): string {
+export function getImageFolder(config: AlpacaConfig): string {
   return config.folders?.images ?? defaultImageFolder(config.destination);
 }
 
@@ -44,7 +44,7 @@ function yesOrNo(value: any): string {
   return value ? 'yes' : 'no';
 }
 
-export function prettyConfig(config: KestrelConfig): string {
+export function prettyConfig(config: AlpacaConfig): string {
   const imageExtensions = config.imageExtensions ?? defaultImageExtensions;
   return [
     `destination: "${config.destination}"`,

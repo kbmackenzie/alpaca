@@ -1,4 +1,4 @@
-import { KestrelConfig } from '@/config/kestrel-config';
+import { AlpacaConfig } from '@/config/alpaca-config';
 import { postContents } from '@/constants';
 import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
@@ -25,7 +25,7 @@ const timeRe = /\b(\d{1,2})\:(\d{1,2})(am|pm)\b/i;
 
 /* Note: Assumes a schema-validated date value: string, null or undefined. */
 export async function getPostDate(
-  config: KestrelConfig,
+  config: AlpacaConfig,
   folder: string,
   input: string | null| undefined
 ): Promise<Either<string, Date>> {

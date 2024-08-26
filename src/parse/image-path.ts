@@ -1,7 +1,7 @@
 import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
 
-const imageAlias = /^\@kestrel\/(.*)$/;
+const imageAlias = /^\@alpaca\/(.*)$/;
 
 /* Always returns a *relative path* if successful! */
 export function parseImagePath(input: string): Either<string, string> {

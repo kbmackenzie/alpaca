@@ -1,10 +1,7 @@
 import {
-  KestrelConfig,
-  defaultDestination, 
-  defaultPostFolder,
-  defaultImageFolder,
+  AlpacaConfig,
   defaultImageExtensions,
-} from '@/config/kestrel-config';
+} from '@/config/alpaca-config';
 
 export type OptionMap = Partial<{
   'destination': string,
@@ -25,7 +22,7 @@ function parseArray(arg: string): string[] {
 }
 
 /* Parse options received from a Commander options object. */
-export function parseOptions(options: OptionMap): Partial<KestrelConfig> {
+export function parseOptions(options: OptionMap): Partial<AlpacaConfig> {
   return {
     destination: options['destination'],
     folders: {
@@ -44,7 +41,7 @@ export function parseOptions(options: OptionMap): Partial<KestrelConfig> {
   };
 }
 
-export function joinConfig(main: KestrelConfig, extra: Partial<KestrelConfig>): KestrelConfig {
+export function joinConfig(main: AlpacaConfig, extra: Partial<AlpacaConfig>): AlpacaConfig {
   return {
     destination:     extra.destination ?? main.destination,
     folders: {

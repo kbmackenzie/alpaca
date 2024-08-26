@@ -1,6 +1,6 @@
 import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
-import { KestrelConfig } from '@/config/kestrel-config';
+import { AlpacaConfig } from '@/config/alpaca-config';
 import { getPostDate } from '@/parse/date';
 import { toPostID } from '@/post/id';
 import { Post, PostMetadata } from '@/post/post';
@@ -11,7 +11,7 @@ import { remark } from 'remark';
 import path from 'node:path';
 
 export async function compilePost(
-  config: KestrelConfig,
+  config: AlpacaConfig,
   info: PostInfo,
 ): Promise<Either<string, string>> {
   const postM = await either.bindAsync(
@@ -22,7 +22,7 @@ export async function compilePost(
 }
 
 export async function createPost(
-  config: KestrelConfig,
+  config: AlpacaConfig,
   info: PostInfo,
   postData: PostData,
 ): Promise<Either<string, Post>> {
@@ -45,7 +45,7 @@ export async function createPost(
 }
 
 export async function transformContent(
-  config: KestrelConfig,
+  config: AlpacaConfig,
   id: string,
   content: string,
 ): Promise<Either<string, string>> {
