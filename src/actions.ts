@@ -2,10 +2,10 @@ import { AlpacaConfig, prettyConfig } from '@/config/alpaca-config';
 import * as either from '@/monad/either';
 import { readConfig } from '@/config/read-config';
 import { initLogger } from '@/logger';
-import { writeAll } from '@/writer/write-all';
+import { writeAll } from '@/write-all';
 import { Logger } from 'winston';
-import { findPosts } from '@/traverse/find-posts';
-import {toPostID} from '@/post/id';
+import { findPosts } from '@/post/find-posts';
+import {toPostID} from '@/post/post-id';
 import {joinConfig} from '@/config/read-cli';
 
 /* All action functions are allowed to throw.
@@ -24,8 +24,8 @@ const actionTable: Record<Action, ActionFn> = {
     const posts   = await findPosts(pwd);
     const message = posts
       .map(post => {
-        const id = toPostID(post.relative);
-        return `- ${id}: "${post.relative}"`;
+        const id = toPostID(post.folder.relative);
+        return `- ${id}: "${post.folder.relative}"`;
       })
       .join('\n');
     process.stdout.write(message + '\n');

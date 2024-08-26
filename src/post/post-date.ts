@@ -1,9 +1,7 @@
 import { AlpacaConfig } from '@/config/alpaca-config';
-import { postContents } from '@/constants';
 import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
 import { tryStat } from '@/safe/io';
-import { join } from 'node:path';
 import { clamp } from '@/utils/clamp';
 
 /* Post date should be a string of form: '01-01-24 03:41pm'
@@ -82,9 +80,8 @@ function parseTime(input: string): Either<string, Time> {
   });
 }
 
-async function inferPostDate(folder: string): Promise<Either<string, Date>> {
-  const postPath = join(folder, postContents);
-  const stats = await tryStat(postPath);
+async function inferPostDate(path: string): Promise<Either<string, Date>> {
+  const stats = await tryStat(path);
   return either.fmap(s => s.mtime, stats);
 }
 

@@ -1,4 +1,4 @@
-import { parseImagePath, shouldTransform } from '@/parse/image-path';
+import { parseImagePath, shouldTransform } from '@/images/image-alias';
 import * as either from '@/monad/either';
 import { Root } from 'mdast';
 import { visit } from 'unist-util-visit';

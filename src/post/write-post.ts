@@ -1,12 +1,11 @@
 import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
 import { AlpacaConfig } from '@/config/alpaca-config';
-import { getPostDate } from '@/parse/date';
-import { toPostID } from '@/post/id';
-import { Post, PostMetadata } from '@/post/post';
-import { PostInfo } from '@/traverse/find-posts';
-import { PostData, readPostData } from '@/traverse/read-post';
-import { resolveImageAlias } from '@/markdown/image-alias';
+import { getPostDate } from '@/post/post-date';
+import { toPostID } from '@/post/post-id';
+import { BlogPost, PostMetadata, PostFile, PostInfo } from '@/post/post-type';
+import { readPost } from '@/post/read-post';
+import { resolveImageAlias } from '@/images/resolve-alias';
 import { remark } from 'remark';
 import path from 'node:path';
 
@@ -15,7 +14,7 @@ export async function compilePost(
   info: PostInfo,
 ): Promise<Either<string, string>> {
   const postM = await either.bindAsync(
-    readPostData(info.path),
+    readPost(info.path),
     (postData) => createPost(config, info, postData)
   );
   return either.fmap(post => JSON.stringify(post), postM);
@@ -24,9 +23,9 @@ export async function compilePost(
 export async function createPost(
   config: AlpacaConfig,
   info: PostInfo,
-  postData: PostData,
-): Promise<Either<string, Post>> {
-  const id = toPostID(info.relative);
+  postData: PostFile
+): Promise<Either<string, BlogPost>> {
+  const id = toPostID(info.folder.relative);
   const metaM = await either.bindAsync(
     getPostDate(config, info.path, postData.date),
     async (date) => either.right<string, PostMetadata>({
@@ -38,7 +37,7 @@ export async function createPost(
     })
   );
   const bodyM = await transformContent(config, id, postData.content);
-  return either.bind(metaM, meta => either.bind(bodyM, body => either.right<string, Post>({
+  return either.bind(metaM, meta => either.bind(bodyM, body => either.right<string, BlogPost>({
     metadata: meta,
     body: body,
   })));

@@ -1,13 +1,14 @@
 import { AlpacaConfig, getImageFolder, getPostFolder } from '@/config/alpaca-config';
 import * as either from '@/monad/either';
-import { compilePost } from '@/compile/post';
-import { toPostID } from '@/post/id';
-import { findPosts, PostInfo } from '@/traverse/find-posts';
+import { compilePost } from '@/post/write-post';
+import { PostInfo } from '@/post/post-type';
+import { toPostID } from '@/post/post-id';
+import { findPosts } from '@/post/find-posts';
 import { nubBy } from '@/utils/nub';
 import fs from 'node:fs/promises'
 import path from 'node:path';
 import { Logger } from 'winston';
-import {copyImages} from '@/traverse/find-images';
+import { copyImages } from '@/images/copy-images';
 
 /* Note: The functions below are impure and do unchecked IO.
  * Do error-handling around them. */
@@ -48,7 +49,7 @@ async function writePosts(
       continue;
     }
     const post = result.value;
-    const id   = toPostID(info.relative);
+    const id   = toPostID(info.folder.relative);
     const filepath = path.join(outputFolder, id);
     fs.writeFile(filepath, post)
   }
@@ -63,7 +64,7 @@ async function writeImages(
   for (const info of postInfos) {
     logger?.info(`Copying images from "${info.path}"...`);
 
-    const id  = toPostID(info.relative);
+    const id  = toPostID(info.folder.relative);
     const imageFolder = path.join(outputFolder, id);
     
     const copied = await copyImages(config, info.path, imageFolder);
