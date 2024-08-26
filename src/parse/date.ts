@@ -20,7 +20,7 @@ type Time = {
   minutes: number;
 };
 
-const dayRe  = /\b(\d{1,2})-(\d{1,2})-(\d{2,4})\b/;
+const dayRe  = /\b(\d{1,2})[-\/](\d{1,2})[-\/](\d{2,4})\b/;
 const timeRe = /\b(\d{1,2})\:(\d{1,2})(am|pm)\b/i;
 
 /* Note: Assumes a schema-validated date value: string, null or undefined. */
