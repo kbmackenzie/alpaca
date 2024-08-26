@@ -87,7 +87,7 @@ async function writeImages(
     const id  = toPostID(info.folder.relative);
     const imageFolder = path.join(outputFolder, id);
     
-    const copied = await copyImages(config, info.path, imageFolder);
+    const copied = await copyImages(config, info.folder.absolute, imageFolder);
     const logged = either.bind(copied, (errors) => {
       errors.forEach(error => logger?.error(error));
       return either.right(undefined);
