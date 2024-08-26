@@ -5,8 +5,8 @@ import { initLogger } from '@/logger';
 import { writeAll } from '@/write-all';
 import { Logger } from 'winston';
 import { findPosts } from '@/post/find-posts';
-import {toPostID} from '@/post/post-id';
-import {joinConfig} from '@/config/read-cli';
+import { toPostID } from '@/post/post-id';
+import { joinConfig } from '@/config/read-cli';
 
 /* All action functions are allowed to throw.
  * They're safely handled. */
