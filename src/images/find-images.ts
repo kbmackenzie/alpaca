@@ -1,4 +1,4 @@
-import { AlpacaConfig, defaultImageExtensions } from '@/config/alpaca-config';
+import { AlpacaConfig, getIgnorePatterns, defaultImageExtensions } from '@/config/alpaca-config';
 import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
 import fg from 'fast-glob';
@@ -11,6 +11,7 @@ export async function findImages(config: AlpacaConfig, folder: string): Promise<
   const images = await fg(expr, {
     cwd: folder,
     onlyFiles: true,
+    ignore: getIgnorePatterns(config),
   });
   return images;
 }

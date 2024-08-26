@@ -7,11 +7,12 @@ export type OptionMap = Partial<{
   'destination': string,
   'posts': string,
   'images': string,
+  'quiet': boolean;
   'never-infer-date': boolean;
   'optimize-images': boolean;
   'image-alias': string;
   'image-extensions': string;
-  'quiet': boolean;
+  'ignore': string;
 }>;
 
 /* Assumes argument array option like: 'a,b,c,d'.
@@ -29,13 +30,13 @@ export function parseOptions(options: OptionMap): Partial<AlpacaConfig> {
       posts:  options['posts'],
       images: options['images'],
     },
+    quiet: options['quiet'],
     neverInferDate: options['never-infer-date'],
     optimizeImages: options['optimize-images'],
     imageAlias: options['image-alias'],
     imageExtensions: options['image-extensions']
       ? parseArray(options['image-extensions'])
       : defaultImageExtensions,
-    quiet: options['quiet'],
   };
 }
 
@@ -46,10 +47,11 @@ export function joinConfig(main: AlpacaConfig, extra: Partial<AlpacaConfig>): Al
       posts:  extra.folders?.posts ?? main.folders?.posts,
       images: extra.folders?.images ?? main.folders?.images,
     },
+    quiet:           extra.quiet ?? main.quiet,
     neverInferDate:  extra.neverInferDate ?? main.neverInferDate,
     optimizeImages:  extra.optimizeImages ?? main.optimizeImages,
     imageAlias:      extra.imageAlias ?? main.imageAlias,
-    imageExtensions: extra.imageExtensions ?? main.imageExtensions,
-    quiet:           extra.quiet ?? main.quiet,
+    imageExtensions: [...(extra.imageExtensions ?? []), ...(main.imageExtensions ?? [])],
+    ignore:          [...(extra.ignore ?? []), ...(main.ignore ?? [])],
   };
 }

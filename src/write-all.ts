@@ -19,7 +19,7 @@ export async function writeAll(
   logger?: Logger
 ): Promise<void> {
   logger?.info(`Searching for posts in path "${folder}"...`);
-  const postInfos = await findPosts(folder)
+  const postInfos = await findPosts(config, folder)
     .then(posts => nubBy(posts, post => post.path.absolute));
 
   logger?.info(`Found ${postInfos.length} posts!`);

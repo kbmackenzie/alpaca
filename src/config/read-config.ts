@@ -17,11 +17,12 @@ const schema: JTDSchemaType<AlpacaConfig> = {
         images: { type: 'string' },
       },
     },
+    quiet: { type: 'boolean' },
     neverInferDate: { type: 'boolean' },
     optimizeImages: { type: 'boolean' },
     imageAlias: { type: 'string' },
     imageExtensions: { elements: { type: 'string' } },
-    quiet: { type: 'boolean' },
+    ignore: { elements: { type: 'string' } },
   },
   additionalProperties: false,
 };

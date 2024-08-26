@@ -20,8 +20,8 @@ const actionTable: Record<Action, ActionFn> = {
   'build': async (config, pwd, logger) => {
     await writeAll(config, pwd, logger);
   },
-  'list': async (_, pwd) => {
-    const posts   = await findPosts(pwd);
+  'list': async (config, pwd) => {
+    const posts   = await findPosts(config, pwd);
     const message = posts
       .map(post => {
         const id = toPostID(post.folder.relative);
@@ -34,7 +34,7 @@ const actionTable: Record<Action, ActionFn> = {
     const message = prettyConfig(config);
     process.stdout.write(message + '\n');
 
-    const posts = await findPosts(pwd);
+    const posts = await findPosts(config, pwd);
     process.stdout.write(`posts found: ${posts.length}\n`);
   },
 };

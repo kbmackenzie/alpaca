@@ -1,3 +1,4 @@
+import { AlpacaConfig, getIgnorePatterns } from '@/config/alpaca-config';
 import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
 import { PostInfo } from '@/post/post-type';
@@ -6,11 +7,12 @@ import fg from 'fast-glob';
 
 export const postFile = 'post.md';
 
-export async function findPosts(start: string): Promise<PostInfo[]> {
+export async function findPosts(config: AlpacaConfig, start: string): Promise<PostInfo[]> {
   const root = path.resolve(start);
   const posts = await fg(`**/${postFile}`, {
     cwd: root,
     onlyFiles: true,
+    ignore: getIgnorePatterns(config),
   });
   return posts.map(post => {
     const folder = path.dirname(post);
@@ -27,9 +29,9 @@ export async function findPosts(start: string): Promise<PostInfo[]> {
   });
 }
 
-export async function tryFindPosts(folder: string): Promise<Either<string, PostInfo[]>> {
+export async function tryFindPosts(config: AlpacaConfig, folder: string): Promise<Either<string, PostInfo[]>> {
   try {
-    const posts = await findPosts(folder);
+    const posts = await findPosts(config, folder);
     return either.right<string, PostInfo[]>(posts);
   }
   catch (error) {
