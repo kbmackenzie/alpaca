@@ -6,16 +6,16 @@ export function run(): void {
   const program = new Command();
   program
     .name('kestrel')
-    .description('a tiny blog compiler')
+    .description('a little blog utility')
     .version('1.0.0')
 
   program.command('build')
-    .description('build blog, compiling posts')
+    .description('compile all posts, build blog')
     .argument('[PATH]', 'input folder')
     .option('-d, --destination <PATH>', 'destination folder')
     .option('-p, --posts <PATH>', 'destination folder for posts')
     .option('-i, --images <PATH>', 'destination folder for images')
-    .option('-r, --image-root <PATH>', 'how to resolve image path alias "@kestrel"')
+    .option('-r, --image-root <PATH>', 'how to resolve image path alias')
     .option('-q, --quiet', 'silence log messages')
     .option('--never-infer-date', 'never infer post date from file')
     .option('--optimize-images', 'optimize post images when building')
