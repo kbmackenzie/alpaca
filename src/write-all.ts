@@ -1,7 +1,7 @@
 import { AlpacaConfig, getImageFolder, getPostFolder } from '@/config/alpaca-config';
 import * as either from '@/monad/either';
 import { compilePost } from '@/post/write-post';
-import { PostInfo } from '@/post/post-type';
+import { PostInfo, PostMetadata } from '@/post/post-type';
 import { toPostID } from '@/post/post-id';
 import { findPosts } from '@/post/find-posts';
 import { nubBy } from '@/utils/nub';
@@ -40,19 +40,39 @@ async function writePosts(
   outputFolder: string,
   logger?: Logger
 ): Promise<void> {
+  const metadata: PostMetadata[] = [];
+
   for (const info of postInfos) {
     logger?.info(`Compiling post "${info.path}"...`);
 
-    const result = await compilePost(config, info);
-    if (either.isLeft(result)) {
+    const result = await either.bindAsync(
+      compilePost(config, info),
+      async (post) => {
+        const id = toPostID(info.folder.relative);
+
+        const filepath = path.join(outputFolder, id);
+        const content  = JSON.stringify(post);
+        fs.writeFile(filepath, content)
+
+        return either.right(post.metadata);
+      }
+    );
+    if (result.type === 'left') {
       logger?.error(result.value);
       continue;
     }
-    const post = result.value;
-    const id   = toPostID(info.folder.relative);
-    const filepath = path.join(outputFolder, id);
-    fs.writeFile(filepath, post)
+    metadata.push(result.value);
   }
+  await writeMeta(config, metadata);
+}
+
+async function writeMeta(
+  config: AlpacaConfig,
+  postInfos: PostMetadata[]
+): Promise<void> {
+  const metaFile = path.join(config.destination, 'meta.json');
+  const content  = JSON.stringify(postInfos);
+  return fs.writeFile(metaFile, content);
 }
 
 async function writeImages(
