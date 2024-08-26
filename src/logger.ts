@@ -13,7 +13,7 @@ export function initLogger(destination: string, quiet: boolean = false): Logger 
       }),
       new winston.transports.File({
         format: winston.format.json(),
-        filename: path.join(destination, 'kestrel-log.log'),
+        filename: path.join(destination, 'alpaca-log.log'),
         level: 'info',
       }),
     ],

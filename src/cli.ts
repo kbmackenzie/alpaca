@@ -5,7 +5,7 @@ import { runAction } from '@/actions';
 export function run(): void {
   const program = new Command();
   program
-    .name('kestrel')
+    .name('alpaca')
     .description('a little blog utility')
     .version('1.0.0')
 
@@ -35,7 +35,7 @@ export function run(): void {
     });
 
   program.command('status')
-    .description('show kestrel status')
+    .description('show alpaca status')
     .alias('stat')
     .argument('[PATH]', 'input folder')
     .action((folder, options) => {
