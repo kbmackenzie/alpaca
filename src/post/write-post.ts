@@ -12,12 +12,11 @@ import path from 'node:path';
 export async function compilePost(
   config: AlpacaConfig,
   info: PostInfo,
-): Promise<Either<string, string>> {
-  const postM = await either.bindAsync(
+): Promise<Either<string, BlogPost>> {
+  return await either.bindAsync(
     readPost(info.path),
     (postData) => createPost(config, info, postData)
   );
-  return either.fmap(post => JSON.stringify(post), postM);
 }
 
 export async function createPost(
