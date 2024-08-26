@@ -50,7 +50,7 @@ async function writePosts(
       async (post) => {
         const id = toPostID(info.folder.relative);
 
-        const filepath = path.join(outputFolder, id);
+        const filepath = path.join(outputFolder, `${id}.json`);
         const content  = JSON.stringify(post);
         fs.writeFile(filepath, content)
 
