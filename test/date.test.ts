@@ -1,5 +1,5 @@
 import * as either from '@/monad/either';
-import { parsePostDate } from '@/parse/date';
+import { parsePostDate } from '@/post/post-date';
 
 describe('parse post date', () => {
   type Expectation = {

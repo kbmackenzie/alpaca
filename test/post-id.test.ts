@@ -1,4 +1,4 @@
-import { toPostID, isValidPostID } from '@/post/id';
+import { toPostID, isValidPostID } from '@/post/post-id';
 
 describe('post id creation', () => {
   type Expectation = {

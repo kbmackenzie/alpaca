@@ -1,5 +1,5 @@
 import * as either from '@/monad/either';
-import { parseImagePath, shouldTransform } from '@/parse/image-path';
+import { parseImagePath, shouldTransform } from '@/images/image-alias';
 
 describe('parse image alias', () => {
   type Expectation = {
