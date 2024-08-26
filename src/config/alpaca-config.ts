@@ -8,9 +8,7 @@ export type AlpacaConfig = {
   },
   neverInferDate?: boolean;
   optimizeImages?: boolean;
-  images?: {
-    imageRoot: string;
-  },
+  imageAlias?: string;
   imageExtensions?: string[];
   quiet?: boolean;
 };
@@ -52,7 +50,7 @@ export function prettyConfig(config: AlpacaConfig): string {
     `  images: "${getImageFolder(config)}"`,
     `quiet: ${config.quiet ? 'yes' : 'no'}`,
     `infer date: ${config.neverInferDate ? 'never' : 'as needed'}`,
-    `resolve image alias: ${yesOrNo(config.images?.imageRoot)}`,
+    `resolve image alias: ${yesOrNo(config.imageAlias)}`,
     `optimize images: ${yesOrNo(config.optimizeImages)}`,
     `image extensions: ${imageExtensions.join(', ')}`,
   ].join('\n');

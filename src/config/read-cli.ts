@@ -9,7 +9,7 @@ export type OptionMap = Partial<{
   'images': string,
   'never-infer-date': boolean;
   'optimize-images': boolean;
-  'image-root': string;
+  'image-alias': string;
   'image-extensions': string;
   'quiet': boolean;
 }>;
@@ -31,9 +31,7 @@ export function parseOptions(options: OptionMap): Partial<AlpacaConfig> {
     },
     neverInferDate: options['never-infer-date'],
     optimizeImages: options['optimize-images'],
-    images: options['image-root'] ? {
-      imageRoot: options['image-root']
-    } : undefined,
+    imageAlias: options['image-alias'],
     imageExtensions: options['image-extensions']
       ? parseArray(options['image-extensions'])
       : defaultImageExtensions,
@@ -50,7 +48,7 @@ export function joinConfig(main: AlpacaConfig, extra: Partial<AlpacaConfig>): Al
     },
     neverInferDate:  extra.neverInferDate ?? main.neverInferDate,
     optimizeImages:  extra.optimizeImages ?? main.optimizeImages,
-    images:          extra.images ?? main.images,
+    imageAlias:      extra.imageAlias ?? main.imageAlias,
     imageExtensions: extra.imageExtensions ?? main.imageExtensions,
     quiet:           extra.quiet ?? main.quiet,
   };

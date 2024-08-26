@@ -48,11 +48,11 @@ export async function transformContent(
   id: string,
   content: string,
 ): Promise<Either<string, string>> {
-  if (!config.images?.imageRoot) {
+  if (!config.imageAlias) {
     return either.right(content);
   }
   const rem = remark().use(resolveImageAlias, {
-    imageRoot: path.join(config.images.imageRoot, id),
+    imageRoot: path.join(config.imageAlias, id),
   });
   const file = await rem.process(content);
   return either.right(String(file));

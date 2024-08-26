@@ -15,7 +15,7 @@ export function run(): void {
     .option('-d, --destination <PATH>', 'destination folder')
     .option('-p, --posts <PATH>', 'destination folder for posts')
     .option('-i, --images <PATH>', 'destination folder for images')
-    .option('-r, --image-root <PATH>', 'how to resolve image path alias')
+    .option('-a, --image-alias <PATH>', 'how to resolve image path alias')
     .option('-q, --quiet', 'silence log messages')
     .option('--never-infer-date', 'never infer post date from file')
     .option('--optimize-images', 'optimize post images when building')
