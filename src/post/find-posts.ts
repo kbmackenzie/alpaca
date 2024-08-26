@@ -15,7 +15,7 @@ export async function findPosts(start: string): Promise<PostInfo[]> {
   return posts.map(post => {
     const folder = path.dirname(post);
     return {
-      path: post,
+      path: path.resolve(root, post),
       folder: {
         absolute: path.resolve(root, folder),
         relative: path.relative(root, folder),
