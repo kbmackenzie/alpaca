@@ -36,10 +36,16 @@ export async function createPost(
     })
   );
   const bodyM = await transformContent(config, id, postData.content);
-  return either.bind(metaM, meta => either.bind(bodyM, body => either.right<string, BlogPost>({
-    metadata: meta,
-    body: body,
-  })));
+  return either.bind(
+    metaM,
+    meta => either.bind(
+      bodyM,
+      body => either.right<string, BlogPost>({
+        metadata: meta,
+        body: body,
+      })
+    )
+  );
 }
 
 export async function transformContent(
