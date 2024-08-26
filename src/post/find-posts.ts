@@ -15,10 +15,10 @@ export async function findPosts(start: string): Promise<PostInfo[]> {
   return posts.map(post => {
     const folder = path.dirname(post);
     return {
-      path: path.resolve(root, post),
+      path: path.join(root, post),
       folder: {
-        absolute: path.resolve(root, folder),
-        relative: path.relative(root, folder),
+        absolute: path.join(root, folder),
+        relative: folder,
       },
     };
   });
