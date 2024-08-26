@@ -14,7 +14,7 @@ export async function compilePost(
   info: PostInfo,
 ): Promise<Either<string, BlogPost>> {
   return await either.bindAsync(
-    readPost(info.path),
+    readPost(info.path.absolute),
     (postData) => createPost(config, info, postData)
   );
 }
@@ -26,7 +26,7 @@ export async function createPost(
 ): Promise<Either<string, BlogPost>> {
   const id = toPostID(info.folder.relative);
   const metaM = await either.bindAsync(
-    getPostDate(config, info.path, postData.date),
+    getPostDate(config, info.path.absolute, postData.date),
     async (date) => either.right<string, PostMetadata>({
       title: postData.title,
       id: id,

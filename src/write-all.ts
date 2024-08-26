@@ -20,7 +20,7 @@ export async function writeAll(
 ): Promise<void> {
   logger?.info(`Searching for posts in path "${folder}"...`);
   const postInfos = await findPosts(folder)
-    .then(posts => nubBy(posts, post => post.path));
+    .then(posts => nubBy(posts, post => post.path.absolute));
 
   logger?.info(`Found ${postInfos.length} posts!`);
 
@@ -43,7 +43,7 @@ async function writePosts(
   const metadata: PostMetadata[] = [];
 
   for (const info of postInfos) {
-    logger?.info(`Compiling post "${info.path}"...`);
+    logger?.info(`Compiling post "${info.path.relative}"...`);
 
     const result = await either.bindAsync(
       compilePost(config, info),
@@ -82,7 +82,7 @@ async function writeImages(
   logger?: Logger
 ): Promise<void> {
   for (const info of postInfos) {
-    logger?.info(`Copying images from "${info.path}"...`);
+    logger?.info(`Copying images from "${info.path.relative}"...`);
 
     const id  = toPostID(info.folder.relative);
     const imageFolder = path.join(outputFolder, id);

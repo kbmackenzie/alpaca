@@ -22,7 +22,10 @@ export type BlogPost = Readonly<{
  * Compiler input:
  * ---------------- */
 export type PostInfo = Readonly<{
-  path: string;
+  path: Readonly<{
+    absolute: string;
+    relative: string;
+  }>,
   folder: Readonly<{
     absolute: string;
     relative: string;
