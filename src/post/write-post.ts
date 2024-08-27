@@ -2,7 +2,6 @@ import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
 import { AlpacaConfig } from '@/config/alpaca-config';
 import { getPostDate } from '@/post/post-date';
-import { toPostID } from '@/post/post-id';
 import { BlogPost, PostMetadata, PostFile, PostInfo } from '@/post/post-type';
 import { readPost } from '@/post/read-post';
 import { resolveImageAlias } from '@/images/resolve-alias';
@@ -24,18 +23,17 @@ export async function createPost(
   info: PostInfo,
   postData: PostFile
 ): Promise<Either<string, BlogPost>> {
-  const id = toPostID(info.folder.relative);
   const metaM = await either.bindAsync(
     getPostDate(config, info.path.absolute, postData.date),
     async (date) => either.right<string, PostMetadata>({
       title: postData.title,
-      id: id,
+      id: info.id,
       timestamp: date.getTime(),
       description: postData.description ?? '',
       tags: postData.tags ?? [],
     })
   );
-  const bodyM = await transformContent(config, id, postData.content);
+  const bodyM = await transformContent(config, info.id, postData.content);
   return either.bind(
     metaM,
     meta => either.bind(

@@ -2,7 +2,6 @@ import { AlpacaConfig, getImageFolder, getPostFolder } from '@/config/alpaca-con
 import * as either from '@/monad/either';
 import { compilePost } from '@/post/write-post';
 import { PostInfo, PostMetadata } from '@/post/post-type';
-import { toPostID } from '@/post/post-id';
 import { findPosts } from '@/post/find-posts';
 import { nubBy } from '@/utils/nub';
 import fs from 'node:fs/promises'
@@ -52,9 +51,7 @@ async function writePosts(
     const result = await either.bindAsync(
       compilePost(config, info),
       async (post) => {
-        const id = toPostID(info.folder.relative);
-
-        const filepath = path.join(outputFolder, `${id}.json`);
+        const filepath = path.join(outputFolder, `${info.id}.json`);
         const content  = JSON.stringify(post);
         fs.writeFile(filepath, content)
 
@@ -87,9 +84,7 @@ async function writeImages(
 ): Promise<void> {
   for (const info of postInfos) {
     logger?.info(`Copying images from "${info.path.relative}"...`);
-
-    const id  = toPostID(info.folder.relative);
-    const imageFolder = path.join(outputFolder, id);
+    const imageFolder = path.join(outputFolder, info.id);
     
     const copied = await copyImages(config, info.folder.absolute, imageFolder);
     const logged = either.bind(copied, (errors) => {

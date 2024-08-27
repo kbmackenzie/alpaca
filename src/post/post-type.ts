@@ -26,6 +26,7 @@ export type BlogPost = Readonly<{
  * Compiler input:
  * ---------------- */
 export type PostInfo = Readonly<{
+  id: string;
   path: Readonly<{
     absolute: string;
     relative: string;

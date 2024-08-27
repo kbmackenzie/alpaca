@@ -1,4 +1,5 @@
 import { AlpacaConfig, getIgnorePatterns } from '@/config/alpaca-config';
+import { toPostID } from '@/post/post-id';
 import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
 import { PostInfo } from '@/post/post-type';
@@ -16,7 +17,9 @@ export async function findPosts(config: AlpacaConfig, start: string): Promise<Po
   });
   return posts.map(post => {
     const folder = path.dirname(post);
+    const id = toPostID(post);
     return {
+      id: id,
       path: {
         absolute: path.join(root, post),
         relative: post,

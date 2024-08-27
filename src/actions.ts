@@ -5,7 +5,6 @@ import { initLogger } from '@/logger';
 import { writeAll } from '@/write-all';
 import { Logger } from 'winston';
 import { findPosts } from '@/post/find-posts';
-import { toPostID } from '@/post/post-id';
 import { joinConfig } from '@/config/read-cli';
 
 /* All action functions are allowed to throw.
@@ -23,10 +22,7 @@ const actionTable: Record<Action, ActionFn> = {
   'list': async (config, pwd) => {
     const posts   = await findPosts(config, pwd);
     const message = posts
-      .map(post => {
-        const id = toPostID(post.folder.relative);
-        return `- ${id}: "${post.folder.relative}"`;
-      })
+      .map(post => `- ${post.id}: "${post.folder.relative}"`)
       .join('\n');
     process.stdout.write(message + '\n');
   },
