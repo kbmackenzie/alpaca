@@ -5,6 +5,7 @@ import { initLogger } from '@/logger';
 import { writeAll } from '@/write-all';
 import { Logger } from 'winston';
 import { findPosts } from '@/post/find-posts';
+import { nubBy } from '@/utils/nub';
 import { joinConfig } from '@/config/read-cli';
 
 /* All action functions are allowed to throw.
@@ -20,7 +21,9 @@ const actionTable: Record<Action, ActionFn> = {
     await writeAll(config, pwd, logger);
   },
   'list': async (config, pwd) => {
-    const posts   = await findPosts(config, pwd);
+    const posts = await findPosts(config, pwd)
+      .then(posts => nubBy(posts, post => post.id));
+
     const message = posts
       .map(post => `- ${post.id}: "${post.folder.relative}"`)
       .join('\n');
@@ -30,7 +33,8 @@ const actionTable: Record<Action, ActionFn> = {
     const message = prettyConfig(config);
     process.stdout.write(message + '\n');
 
-    const posts = await findPosts(config, pwd);
+    const posts = await findPosts(config, pwd)
+      .then(posts => nubBy(posts, post => post.id));
     process.stdout.write(`posts found: ${posts.length}\n`);
   },
 };
