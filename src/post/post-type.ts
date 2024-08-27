@@ -10,6 +10,10 @@ export type PostMetadata = Readonly<{
   id: string;
   timestamp: number;
   description: string;
+  thumbnail?: Readonly<{
+    src: string;
+    alt: string;
+  }>,
   tags: string[];
 }>;
 
@@ -34,9 +38,13 @@ export type PostInfo = Readonly<{
 
 export type PostFileMeta = Readonly<{
   title: string;
-  tags?: string[];
   date?: string;
   description?: string;
+  thumbnail?: Readonly<{
+    src: string;
+    alt: string;
+  }>;
+  tags?: string[];
 }>;
 
 export type PostFile = PostFileMeta & Readonly<{
@@ -50,6 +58,12 @@ const schema: JTDSchemaType<PostFileMeta> = {
   optionalProperties: {
     tags: {
       elements: { type: 'string' }
+    },
+    thumbnail: {
+      properties: {
+        src: { type: 'string' },
+        alt: { type: 'string' },
+      },
     },
     date: { type: 'string' },
     description: { type: 'string' },
