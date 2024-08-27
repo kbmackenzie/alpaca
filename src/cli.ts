@@ -1,4 +1,5 @@
 import { Command } from 'commander';
+import { version } from '@/constants';
 import { parseOptions } from '@/config/read-cli';
 import { runAction } from '@/actions';
 
@@ -7,7 +8,7 @@ export function run(): void {
   program
     .name('alpaca')
     .description('a little blog utility')
-    .version('1.0.0')
+    .version(version)
 
   program.command('build')
     .description('compile all posts, build blog')
