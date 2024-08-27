@@ -1,9 +1,10 @@
-import { AlpacaConfig, getImageFolder, getPostFolder } from '@/config/alpaca-config';
+import { AlpacaConfig } from '@/config/alpaca-config';
 import * as either from '@/monad/either';
 import { compilePost } from '@/post/write-post';
 import { PostInfo, PostMetadata } from '@/post/post-type';
 import { findPosts } from '@/post/find-posts';
 import { nubBy } from '@/utils/nub';
+import { buildFolder, postFolder, imageFolder } from '@/constants';
 import fs from 'node:fs/promises'
 import path from 'node:path';
 import { Logger } from 'winston';
@@ -24,13 +25,10 @@ export async function writeAll(
   logger?.info(`Found ${postInfos.length} posts!`);
 
   /* Clean destination folder and begin building from scratch. */
-  await fs.rm(config.destination, { recursive: true, force: true, });
-  await fs.mkdir(config.destination, { recursive: true, });
+  await fs.rm(buildFolder, { recursive: true, force: true, });
+  await fs.mkdir(buildFolder, { recursive: true, });
 
-  const postFolder = getPostFolder(config)
-  await fs.mkdir(postFolder, { recursive: true });
-
-  const imageFolder = getImageFolder(config)
+  await fs.mkdir(postFolder,  { recursive: true });
   await fs.mkdir(imageFolder, { recursive: true });
 
   await writePosts(config, postInfos, postFolder, logger);
@@ -64,14 +62,13 @@ async function writePosts(
       (meta) => { metadata.push(meta); },
     );
   }
-  await writeMeta(config, metadata);
+  await writeMeta(metadata);
 }
 
 async function writeMeta(
-  config: AlpacaConfig,
   postInfos: PostMetadata[]
 ): Promise<void> {
-  const metaFile = path.join(config.destination, 'meta.json');
+  const metaFile = path.join(buildFolder, 'meta.json');
   const content  = JSON.stringify(postInfos);
   return fs.writeFile(metaFile, content);
 }
