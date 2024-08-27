@@ -1,7 +1,12 @@
 import winston, { Logger }  from 'winston';
 import path from 'node:path';
 
-export function initLogger(destination: string, quiet: boolean = false): Logger {
+export type LoggerOptions = {
+  quiet?:   boolean;
+  logFile?: boolean;
+};
+
+export function initLogger(destination: string, options?: LoggerOptions): Logger {
   return winston.createLogger({
     transports: [
       new winston.transports.Console({
@@ -9,13 +14,13 @@ export function initLogger(destination: string, quiet: boolean = false): Logger 
           winston.format.colorize(),
           winston.format.simple(),
         ),
-        level: quiet ? 'error' : 'info',
+        level: options?.quiet ? 'error' : 'info',
       }),
-      new winston.transports.File({
+      options?.logFile && new winston.transports.File({
         format: winston.format.json(),
         filename: path.join(destination, 'alpaca-log.log'),
         level: 'info',
       }),
-    ],
+    ].filter(x => !!x),
   });
 }

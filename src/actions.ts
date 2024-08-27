@@ -50,10 +50,15 @@ export async function runAction(
     config => joinConfig(config, options ?? {}),
     await readConfig(pwd)
   );
-  const quiet  = either.fromEither(config, _ => false, config => config.quiet);
+  const quiet   = either.fromEither(config, _ => false, config => config.quiet  );
+  const logFile = either.fromEither(config, _ => false, config => config.logFile);
 
   /* Log file should always be in the project root. */
-  const logger = initLogger(pwd, quiet);
+  const logger = initLogger(pwd, {
+    quiet: quiet,
+    logFile: logFile,
+  });
+
   if (config.type === 'left') {
     logger.error(config.value);
     process.exitCode = 1;
