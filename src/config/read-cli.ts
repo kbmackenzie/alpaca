@@ -1,6 +1,5 @@
 import {
   AlpacaConfig,
-  defaultImageExtensions,
 } from '@/config/alpaca-config';
 
 export type OptionMap = Partial<{
