@@ -15,6 +15,7 @@ export function run(): void {
     .argument('[PATH]', 'input folder', '.')
     .option('-a, --image-alias <PATH>', 'how to resolve image path alias')
     .option('-q, --quiet', 'silence log messages')
+    .option('-l, --log-file', 'create a log file')
     .option('-i, --ignore <PATTERN...>', 'ignore paths matching pattern(s)')
     .option('--never-infer-date', 'never infer post date from file')
     .option('--optimize-images', 'optimize post images when building')
