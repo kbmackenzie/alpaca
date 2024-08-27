@@ -24,6 +24,10 @@ export async function writeAll(
 
   logger?.info(`Found ${postInfos.length} posts!`);
 
+  /* Clean destination folder and begin building from scratch. */
+  await fs.rm(config.destination, { recursive: true, force: true, });
+  await fs.mkdir(config.destination, { recursive: true, });
+
   const postFolder = getPostFolder(config)
   await fs.mkdir(postFolder, { recursive: true });
 
