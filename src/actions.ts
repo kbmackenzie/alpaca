@@ -49,8 +49,8 @@ export async function runAction(
     config => joinConfig(config, options ?? {}),
     await readConfig(pwd)
   );
-  const quiet  = either.fromEither(config, false, config => config.quiet      );
-  const dest   = either.fromEither(config, pwd  , config => config.destination);
+  const quiet  = either.fromEither(config, _ => false, config => config.quiet      );
+  const dest   = either.fromEither(config, _ => pwd  , config => config.destination);
 
   const logger = initLogger(dest, quiet);
   if (config.type === 'left') {
