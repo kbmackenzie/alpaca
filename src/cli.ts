@@ -17,9 +17,9 @@ export function run(): void {
     .option('-q, --quiet', 'silence log messages')
     .option('-l, --log-file', 'create a log file')
     .option('-i, --ignore <PATTERN...>', 'ignore paths matching pattern(s)')
-    .option('--never-infer-date', 'never infer post date from file')
-    .option('--optimize-images', 'optimize post images when building')
-    .option('--extensions <EXTENSION...>', 'image extensions to look for, comma-separated')
+    .option('-n, --never-infer-date', 'never infer post date from file')
+    .option('-o, --optimize-images', 'optimize post images when building')
+    .option('-e, --extensions <EXTENSION...>', 'image extensions to look for, comma-separated')
     .action((folder, options) => {
       const config = parseOptions(options);
       return runAction('build', folder, config);
