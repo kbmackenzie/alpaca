@@ -3,6 +3,7 @@ import { buildFolder } from '@/constants';
 
 export type AlpacaConfig = {
   quiet?: boolean;
+  logFile?: boolean;
   neverInferDate?: boolean;
   optimizeImages?: boolean;
   imageAlias?: string;

@@ -4,6 +4,7 @@ import {
 
 export type OptionMap = Partial<{
   'quiet': boolean;
+  'log-file': boolean;
   'never-infer-date': boolean;
   'optimize-images': boolean;
   'image-alias': string;
@@ -15,6 +16,7 @@ export type OptionMap = Partial<{
 export function parseOptions(options: OptionMap): Partial<AlpacaConfig> {
   return {
     quiet: options['quiet'],
+    logFile: options['log-file'],
     neverInferDate: options['never-infer-date'],
     optimizeImages: options['optimize-images'],
     imageAlias: options['image-alias'],
@@ -26,6 +28,7 @@ export function parseOptions(options: OptionMap): Partial<AlpacaConfig> {
 export function joinConfig(main: AlpacaConfig, extra: Partial<AlpacaConfig>): AlpacaConfig {
   return {
     quiet:           extra.quiet ?? main.quiet,
+    logFile:         extra.logFile ?? main.logFile,
     neverInferDate:  extra.neverInferDate ?? main.neverInferDate,
     optimizeImages:  extra.optimizeImages ?? main.optimizeImages,
     imageAlias:      extra.imageAlias ?? main.imageAlias,

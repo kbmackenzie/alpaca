@@ -10,6 +10,7 @@ import path from 'node:path';
 const schema: JTDSchemaType<AlpacaConfig> = {
   optionalProperties: {
     quiet: { type: 'boolean' },
+    logFile: { type: 'boolean' },
     neverInferDate: { type: 'boolean' },
     optimizeImages: { type: 'boolean' },
     imageAlias: { type: 'string' },
