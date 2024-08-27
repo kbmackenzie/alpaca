@@ -57,11 +57,11 @@ async function writePosts(
         return either.right(post.metadata);
       }
     );
-    if (result.type === 'left') {
-      logger?.error(result.value);
-      continue;
-    }
-    metadata.push(result.value);
+    either.withEither(
+      result,
+      (err)  => { logger?.error(err);  },
+      (meta) => { metadata.push(meta); },
+    );
   }
   await writeMeta(config, metadata);
 }
