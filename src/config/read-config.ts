@@ -6,6 +6,7 @@ import { tryReadFile } from '@/safe/io';
 import { tryReadYaml } from '@/safe/yaml';
 import { configFile } from '@/constants';
 import path from 'node:path';
+import { existsSync } from 'node:fs';
 
 const schema: JTDSchemaType<AlpacaConfig> = {
   optionalProperties: {
@@ -38,4 +39,9 @@ export async function readConfig(root: string): Promise<Either<string, AlpacaCon
       (data) => validateConfig(data)
     )
   );
+}
+
+export function hasConfig(root: string): boolean {
+  const config = path.join(root, configFile);
+  return existsSync(config);
 }
