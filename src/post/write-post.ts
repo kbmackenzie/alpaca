@@ -1,6 +1,6 @@
 import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
-import { AlpacaConfig } from '@/config/alpaca-config';
+import { AlpacaConfig, defaultImageAlias } from '@/config/alpaca-config';
 import { getPostDate } from '@/post/post-date';
 import { BlogPost, PostMetadata, PostFile, PostInfo } from '@/post/post-type';
 import { readPost } from '@/post/read-post';
@@ -51,11 +51,9 @@ export async function transformContent(
   id: string,
   content: string,
 ): Promise<Either<string, string>> {
-  if (!config.imageAlias) {
-    return either.right(content);
-  }
+  const aliased = config.imageAlias ?? defaultImageAlias;
   const rem = remark().use(resolveImageAlias, {
-    imageRoot: path.join(config.imageAlias, id),
+    imageRoot: path.join(aliased, id),
   });
   const file = await rem.process(content);
   return either.right(String(file));
