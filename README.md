@@ -1,6 +1,6 @@
 A little blog utility for organizing posts. It converts nested directories of Markdown files with YAML front matter into a flat directory of aptly-named JSON files—where each file is a post.
 
-Each post is assigned a string ID containing only characters in the regex group `[a-z0-9\-_]`—that is, lowercase letters (from 'a' to 'z'), digits ('0' to '9'), dashes ('-') and underscores ('_'). These IDs can be safely included in URLs.
+Each post is assigned a string ID containing only characters in the regex character class `[a-z0-9\-_]`—that is, lowercase letters (from 'a' to 'z'), digits ('0' to '9'), dashes ('-') and underscores ('_'). These IDs can be safely included in URLs.
 
 ## About
 
