@@ -7,7 +7,6 @@ import { Logger } from 'winston';
 import { findPosts } from '@/post/find-posts';
 import { nubBy } from '@/utils/nub';
 import { joinConfig } from '@/config/read-cli';
-import { buildFolder } from '@/constants';
 
 /* All action functions are allowed to throw.
  * They're safely handled. */
@@ -50,11 +49,12 @@ export async function runAction(
     config => joinConfig(config, options ?? {}),
     await readConfig(pwd)
   );
-  const quiet   = either.fromEither(config, _ => false, config => config.quiet  );
-  const logFile = either.fromEither(config, _ => false, config => config.logFile);
+  const quiet   = either.fromEither(config, _ => false, config => !!config.quiet  );
+  const logFile = either.fromEither(config, _ => false, config => !!config.logFile);
 
   /* Log file should always be in the project root. */
-  const logger = initLogger(pwd, {
+  const logger = initLogger({
+    pwd: pwd,
     quiet: quiet,
     logFile: logFile,
   });
