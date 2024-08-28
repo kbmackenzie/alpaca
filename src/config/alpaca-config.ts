@@ -1,5 +1,5 @@
 import fg from 'fast-glob';
-import { buildFolder } from '@/constants';
+import { version, buildFolder } from '@/constants';
 
 export type AlpacaConfig = {
   quiet?: boolean;
@@ -22,6 +22,8 @@ export function prettyConfig(config: AlpacaConfig): string {
   const imageExtensions = config.imageExtensions ?? defaultImageExtensions;
   const ignored = config.ignore?.map(x => `"${x}"`).join(', ') ?? '[]';
   return [
+    `alpaca v${version}`,
+    '',
     `quiet: ${config.quiet ? 'yes' : 'no'}`,
     `infer date: ${config.neverInferDate ? 'never' : 'as needed'}`,
     `resolve image alias: ${yesOrNo(config.imageAlias)}`,
