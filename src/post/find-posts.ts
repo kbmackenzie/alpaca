@@ -17,7 +17,7 @@ export async function findPosts(config: AlpacaConfig, start: string): Promise<Po
   });
   return posts.map(post => {
     const folder = path.dirname(post);
-    const id = toPostID(post);
+    const id = toPostID(folder);
     return {
       id: id,
       path: {
