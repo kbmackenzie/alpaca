@@ -1,6 +1,7 @@
 import { AlpacaConfig, prettyConfig } from '@/config/alpaca-config';
+import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
-import { readConfig } from '@/config/read-config';
+import { hasConfig, readConfig } from '@/config/read-config';
 import { initLogger } from '@/logger';
 import { writeAll } from '@/write-all';
 import { Logger } from 'winston';
@@ -39,6 +40,12 @@ const actionTable: Record<Action, ActionFn> = {
   },
 };
 
+/* Make config file optional. Forgive a lack of it. */
+async function getConfig(pwd: string): Promise<Either<string, AlpacaConfig>> {
+  if (hasConfig(pwd)) return readConfig(pwd);
+  return either.right<string, AlpacaConfig>({});
+}
+
 export async function runAction(
   action: Action,
   folder?: string,
@@ -47,7 +54,7 @@ export async function runAction(
   const pwd    = folder ?? process.cwd();
   const config = either.fmap(
     config => joinConfig(config, options ?? {}),
-    await readConfig(pwd)
+    await getConfig(pwd)
   );
   const quiet   = either.fromEither(config, _ => false, config => !!config.quiet  );
   const logFile = either.fromEither(config, _ => false, config => !!config.logFile);
