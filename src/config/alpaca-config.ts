@@ -33,6 +33,10 @@ export function prettyConfig(config: AlpacaConfig): string {
   ].join('\n');
 }
 
+export function getImageAlias(config: AlpacaConfig): string {
+  return config.imageAlias ?? defaultImageAlias;
+}
+
 export function getIgnorePatterns(config: AlpacaConfig): string[] {
   const dest = fg.convertPathToPattern(buildFolder) + '/**';
   if (!config.ignore) return [dest];
