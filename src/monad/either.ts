@@ -68,6 +68,11 @@ export function withEither<E, A>(m: Either<E, A>, l: (e: E) => void, r: (a: A) =
   fromEither(m, l, r);
 }
 
+export function tryCatch<E, A>(m: Either<E, A>, catcher: (e: E) => Either<E, A>): Either<E, A> {
+  if (m.type === 'left') return catcher(m.value);
+  return m;
+}
+
 export function pipe<E, A>(initial: Either<E, A>, ...fs: ((a: A) => Either<E, A>)[]): Either<E, A> {
   return fs.reduce((acc, f) => bind(acc, f), initial);
 }
