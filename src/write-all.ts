@@ -44,6 +44,9 @@ async function writePosts(
   for (const info of postInfos) {
     logger?.info(`Compiling post "${info.path.relative}"...`);
 
+    const postImages = path.join(imageFolder, info.id);
+    await fs.mkdir(postImages, { recursive: true });
+
     async function writePost(post: BlogPost) {
       const filepath = path.join(postFolder, `${info.id}.json`);
       const content  = JSON.stringify(post);
