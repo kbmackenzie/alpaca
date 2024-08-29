@@ -1,4 +1,4 @@
-A little blog utility for organizing posts. It converts nested directories of Markdown files with YAML front matter into a flat directory of aptly-named JSON files—where each file is a post.
+A little blog utility for organizing posts. It converts nested directories of Markdown files with front matter into a flat directory of JSON files with unique names, and optimizes images + resolves image paths.
 
 Each post is assigned an unique string ID containing only characters in the regular expression character class `[_a-z0-9-]`—that is, lowercase letters (from 'a' to 'z'), digits ('0' to '9'), dashes ('-') and underscores ('_'). These IDs can be safely included in URLs.
 
@@ -11,9 +11,11 @@ I've decided to make the repo public in case it's useful to anyone else. I wrote
 ## Features
 
 - [x] Generate unique post ID from file hierarchy (i.e. `2024/foo/bar` becomes `2024-foo-bar`)
-- [x] Define post date as a pretty human-readable string (i.e. `08/26/2024 8:56AM`)
+- [x] Compress all images into web-optimized JPEGs
+- [x] Support post-scoped path alias for image paths (`@alpaca`)
+- [x] Transform Markdown, resolving image paths for compressed images
+- [x] Parse post date from a pretty, human-readable string (i.e. `08/26/2024 8:56AM`)
 - [x] Optionally infer post date from file modification date
-- [x] Support post-scoped path aliasing for images: `@alpaca/[name].png` resolves to `[alias-path]/[post-id]/[name].png`,
 
 ## Command-Line Interface
 
