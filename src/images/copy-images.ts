@@ -3,7 +3,7 @@ import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
 import { PostInfo } from '@/post/post-type';
 import { tryFindImages } from '@/images/find-images';
-import { tryCopyFile } from '@/safe/io';
+import { tryCompressImage } from '@/images/compress-image';
 import { imageFolder } from '@/constants';
 import path from 'node:path';
 
@@ -26,7 +26,7 @@ export async function copyImages(
       imageMap.set(image, newPath);
       output = either.then(
         output,
-        await tryCopyFile(image, newPath),
+        await tryCompressImage(image, newPath),
       );
     }
     /* i adore the short-circuiting behavior of the either monad <3 */
