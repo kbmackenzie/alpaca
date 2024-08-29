@@ -18,9 +18,29 @@ function yesOrNo(value: any): string {
   return value ? 'yes' : 'no';
 }
 
+function prettyArray(
+  arr: string[] | undefined,
+  def: string[],
+  prettify: (xs: string[]) => string,
+): string {
+  const choice = arr ? arr : def;
+  if (choice.length === 0) return '[]';
+  return prettify(choice);
+}
+
 export function prettyConfig(config: AlpacaConfig): string {
-  const imageExtensions = config.imageExtensions ?? defaultImageExtensions;
-  const ignored = config.ignore?.map(x => `"${x}"`).join(', ') ?? '[]';
+  const extensions = prettyArray(
+    config.imageExtensions,
+    defaultImageExtensions,
+    (xs) => xs.map(parseExtension).join(', ')
+  );
+
+  const ignored = prettyArray(
+    config.ignore,
+    [],
+    (xs) => xs.map(x => `"${x}"`).join(', ')
+  );
+
   return [
     `alpaca v${version}`,
     '',
@@ -28,7 +48,7 @@ export function prettyConfig(config: AlpacaConfig): string {
     `infer date: ${config.neverInferDate ? 'never' : 'as needed'}`,
     `resolve image alias: ${yesOrNo(config.imageAlias)}`,
     `preserve images: ${yesOrNo(config.preserveImages)}`,
-    `image extensions: ${imageExtensions.join(', ')}`,
+    `image extensions: ${extensions}`,
     `ignore: ${ignored}`,
   ].join('\n');
 }
