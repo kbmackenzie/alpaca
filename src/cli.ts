@@ -18,7 +18,7 @@ export function run(): void {
     .option('-l, --log-file', 'create a log file')
     .option('-i, --ignore <PATTERN...>', 'ignore paths matching pattern(s)')
     .option('-n, --never-infer-date', 'never infer post date from file')
-    .option('-o, --preserve-images', 'do not compress images')
+    .option('-p, --preserve-images', 'do not compress images')
     .option('-e, --extensions <EXTENSION...>', 'image extensions to look for')
     .action((folder, options) => {
       const config = parseOptions(options);
