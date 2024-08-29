@@ -4,7 +4,7 @@ import { compilePost } from '@/post/write-post';
 import { PostInfo, PostMetadata } from '@/post/post-type';
 import { findPosts } from '@/post/find-posts';
 import { nubBy } from '@/utils/nub';
-import { buildFolder, postFolder, imageFolder } from '@/constants';
+import { buildFolder, postFolder, imageFolder, imageFolder } from '@/constants';
 import fs from 'node:fs/promises'
 import path from 'node:path';
 import { Logger } from 'winston';
@@ -31,14 +31,13 @@ export async function writeAll(
   await fs.mkdir(postFolder,  { recursive: true });
   await fs.mkdir(imageFolder, { recursive: true });
 
-  await writePosts(config, postInfos, postFolder, logger);
-  await writeImages(config, postInfos, imageFolder, logger);
+  await writePosts(config, postInfos, logger);
+  await writeImages(config, postInfos, logger);
 }
 
 async function writePosts(
   config: AlpacaConfig,
   postInfos: PostInfo[],
-  outputFolder: string,
   logger?: Logger
 ): Promise<void> {
   const metadata: PostMetadata[] = [];
@@ -49,7 +48,7 @@ async function writePosts(
     const result = await either.bindAsync(
       compilePost(config, info),
       async (post) => {
-        const filepath = path.join(outputFolder, `${info.id}.json`);
+        const filepath = path.join(postFolder, `${info.id}.json`);
         const content  = JSON.stringify(post);
         fs.writeFile(filepath, content)
 
@@ -76,14 +75,13 @@ async function writeMeta(
 async function writeImages(
   config: AlpacaConfig,
   postInfos: PostInfo[],
-  outputFolder: string,
   logger?: Logger
 ): Promise<void> {
   for (const info of postInfos) {
     logger?.info(`Copying images from "${info.path.relative}"...`);
-    const imageFolder = path.join(outputFolder, info.id);
+    const folder = path.join(imageFolder, info.id);
     
-    const copied = await copyImages(config, info.folder.absolute, imageFolder);
+    const copied = await copyImages(config, info.folder.absolute, folder);
     const logged = either.bind(copied, (errors) => {
       errors.forEach(error => logger?.error(error));
       return either.right(undefined);
