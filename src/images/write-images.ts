@@ -6,8 +6,15 @@ import { tryFindImages } from '@/images/find-images';
 import { tryCompressImage } from '@/images/compress-image';
 import { imageFolder } from '@/constants';
 import path from 'node:path';
+import {tryCopyFile} from '@/safe/io';
 
 export type ImageMap = Map<string, string>;
+
+type Writer = (from: string, to: string) => Promise<Either<string, void>>;
+
+function getWriter(config: AlpacaConfig): Writer {
+  return (config.preserveImages) ? tryCopyFile : tryCompressImage;
+}
 
 export async function writeImages(
   config: AlpacaConfig,
@@ -21,12 +28,13 @@ export async function writeImages(
     let i = 0;
 
     for (const image of images) {
-      const name    = `${post.id}_${i}.jpg`;
+      const ext     = (config.preserveImages) ? path.extname(image) : '.jpg';
+      const name    = `${post.id}_${i}${ext}`;
       const newPath = path.join(imageFolder, post.id, name);
       imageMap.set(image, newPath);
       output = either.then(
         output,
-        await tryCompressImage(image, newPath),
+        await getWriter(config)(image, newPath),
       );
     }
     /* i adore the short-circuiting behavior of the either monad <3 */
