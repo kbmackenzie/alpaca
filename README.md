@@ -51,7 +51,7 @@ Options:
   -l, --log-file                   create a log file
   -i, --ignore <PATTERN...>        ignore paths matching pattern(s)
   -n, --never-infer-date           never infer post date from file
-  -o, --preserve-images            do not compress images
+  -p, --preserve-images            do not compress images
   -e, --extensions <EXTENSION...>  image extensions to look for
   -h, --help                       display help for command
 ```
