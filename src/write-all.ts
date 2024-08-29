@@ -4,7 +4,7 @@ import { compilePost } from '@/post/write-post';
 import { PostInfo, PostMetadata } from '@/post/post-type';
 import { findPosts } from '@/post/find-posts';
 import { nubBy } from '@/utils/nub';
-import { buildFolder, postFolder, imageFolder, imageFolder } from '@/constants';
+import { buildFolder, postFolder, imageFolder } from '@/constants';
 import fs from 'node:fs/promises'
 import path from 'node:path';
 import { Logger } from 'winston';
