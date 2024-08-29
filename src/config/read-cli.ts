@@ -1,6 +1,5 @@
-import {
-  AlpacaConfig,
-} from '@/config/alpaca-config';
+import { AlpacaConfig, } from '@/config/alpaca-config';
+import { forgiveJoin } from '@/utils/array';
 
 export type OptionMap = Partial<{
   'quiet': boolean;
@@ -32,7 +31,7 @@ export function joinConfig(main: AlpacaConfig, extra: Partial<AlpacaConfig>): Al
     neverInferDate:  extra.neverInferDate ?? main.neverInferDate,
     preserveImages:  extra.preserveImages ?? main.preserveImages,
     imageAlias:      extra.imageAlias ?? main.imageAlias,
-    imageExtensions: [...(extra.imageExtensions ?? []), ...(main.imageExtensions ?? [])],
-    ignore:          [...(extra.ignore ?? []), ...(main.ignore ?? [])],
+    imageExtensions: forgiveJoin(extra.imageExtensions, main.imageExtensions),
+    ignore:          forgiveJoin(extra.ignore, main.ignore),
   };
 }
