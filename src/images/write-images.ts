@@ -1,4 +1,4 @@
-import { AlpacaConfig } from '@/config/alpaca-config';
+import { AlpacaConfig, getImageAlias } from '@/config/alpaca-config';
 import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
 import { PostInfo } from '@/post/post-type';
@@ -29,11 +29,13 @@ export async function writeImages(
     for (const image of images) {
       const ext     = (config.preserveImages) ? path.extname(image) : '.jpg';
       const name    = `${post.id}_${i}${ext}`;
-      const newPath = path.join(imageFolder, name);
-      imageMap.set(image, newPath);
+      const aliased = path.join(getImageAlias(config), name);
+      imageMap.set(image, aliased);
+
+      const outputPath = path.join(imageFolder, name);
       output = either.then(
         output,
-        await getWriter(config)(image, newPath),
+        await getWriter(config)(image, outputPath),
       );
     }
     /* i adore the short-circuiting behavior of the either monad <3 */

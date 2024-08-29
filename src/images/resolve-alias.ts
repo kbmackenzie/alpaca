@@ -8,12 +8,11 @@ import { PostInfo } from '@/post/post-type';
 import { toPosixPath } from '@/utils/to-posix-path';
 
 export type ResolverOptions = Readonly<{
-  imageRoot: string;
   post: PostInfo;
   imageMap: ImageMap;
 }>;
 
-export function resolveImageAlias({ imageRoot, post, imageMap }: ResolverOptions): (tree: Root) => void {
+export function resolveImageAlias({ post, imageMap }: ResolverOptions): (tree: Root) => void {
   return (tree) => {
     visit(tree, 'image', node => {
       if (!shouldTransform(node.url)) return;
@@ -21,8 +20,7 @@ export function resolveImageAlias({ imageRoot, post, imageMap }: ResolverOptions
       const resolved = either.fmap(
         (relative) => {
           const realPath = path.join(post.folder.absolute, relative);
-          const newPath  = imageMap.get(realPath);
-          return newPath && path.join(imageRoot, newPath);
+          return imageMap.get(realPath);
         },
         parseImagePath(node.url),
       );
