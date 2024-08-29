@@ -29,7 +29,7 @@ export async function writeImages(
     for (const image of images) {
       const ext     = (config.preserveImages) ? path.extname(image) : '.jpg';
       const name    = `${post.id}_${i}${ext}`;
-      const newPath = path.join(imageFolder, post.id, name);
+      const newPath = path.join(imageFolder, name);
       imageMap.set(image, newPath);
       output = either.then(
         output,

@@ -22,7 +22,7 @@ export function resolveImageAlias({ imageRoot, post, imageMap }: ResolverOptions
         (relative) => {
           const realPath = path.join(post.folder.absolute, relative);
           const newPath  = imageMap.get(realPath);
-          return newPath && path.join(imageRoot, post.id, newPath);
+          return newPath && path.join(imageRoot, newPath);
         },
         parseImagePath(node.url),
       );
