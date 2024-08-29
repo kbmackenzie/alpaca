@@ -1,4 +1,4 @@
-import { parseExtensions } from '@/images/find-images';
+import { parseExtension } from '@/images/find-images';
 
 describe('parse file extensions', () => {
   type Expectation = {
@@ -20,7 +20,7 @@ describe('parse file extensions', () => {
   ];
 
   test.each(extensions)('can be parsed', ({ input, expected }) => {
-    const [ext] = parseExtensions([input]);
+    const ext = parseExtension(input);
     expect(ext).toBe(expected);
   });
 });
