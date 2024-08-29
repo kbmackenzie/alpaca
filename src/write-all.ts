@@ -8,7 +8,7 @@ import { buildFolder, postFolder, imageFolder } from '@/constants';
 import fs from 'node:fs/promises'
 import path from 'node:path';
 import { Logger } from 'winston';
-import { copyImages } from '@/images/copy-images';
+import { writeImages } from '@/images/write-images';
 
 /* Note: The functions below are impure and do unchecked IO.
  * Do error-handling around them. */
@@ -53,7 +53,7 @@ async function writePosts(
     }
 
     const result = await either.bindAsync(
-      copyImages(config, pwd, info),
+      writeImages(config, pwd, info),
       async (imageMap) => either.bindAsync(
         compilePost(config, info, imageMap),
         async (post) => writePost(post),

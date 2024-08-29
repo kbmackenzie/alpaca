@@ -3,7 +3,7 @@ import * as either from '@/monad/either';
 import { AlpacaConfig, defaultImageAlias } from '@/config/alpaca-config';
 import { getPostDate } from '@/post/post-date';
 import { BlogPost, PostMetadata, PostFile, PostInfo } from '@/post/post-type';
-import { ImageMap } from '@/images/copy-images';
+import { ImageMap } from '@/images/write-images';
 import { readPost } from '@/post/read-post';
 import { resolveImageAlias } from '@/images/resolve-alias';
 import { remark } from 'remark';

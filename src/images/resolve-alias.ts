@@ -3,7 +3,7 @@ import * as either from '@/monad/either';
 import { Root } from 'mdast';
 import { visit } from 'unist-util-visit';
 import path from 'node:path';
-import { ImageMap } from '@/images/copy-images';
+import { ImageMap } from '@/images/write-images';
 import { PostInfo } from '@/post/post-type';
 import { toPosixPath } from '@/utils/to-posix-path';
 

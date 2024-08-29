@@ -9,7 +9,7 @@ import path from 'node:path';
 
 export type ImageMap = Map<string, string>;
 
-export async function copyImages(
+export async function writeImages(
   config: AlpacaConfig,
   pwd: string,
   post: PostInfo,
