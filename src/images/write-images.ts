@@ -5,8 +5,8 @@ import { PostInfo } from '@/post/post-type';
 import { tryFindImages } from '@/images/find-images';
 import { tryCompressImage } from '@/images/compress-image';
 import { imageFolder } from '@/constants';
+import { tryCopyFile } from '@/safe/io';
 import path from 'node:path';
-import {tryCopyFile} from '@/safe/io';
 
 export type ImageMap = Map<string, string>;
 
@@ -18,7 +18,6 @@ function getWriter(config: AlpacaConfig): Writer {
 
 export async function writeImages(
   config: AlpacaConfig,
-  pwd: string,
   post: PostInfo,
 ): Promise<Either<string, ImageMap>> {
   async function copyAll(images: string[]): Promise<Either<string, ImageMap>> {
@@ -41,7 +40,7 @@ export async function writeImages(
     return either.fmap(_ => imageMap, output);
   };
   return either.bindAsync(
-    tryFindImages(config, pwd),
+    tryFindImages(config, post.folder.absolute),
     copyAll,
   );
 }

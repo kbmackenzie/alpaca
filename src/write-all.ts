@@ -30,12 +30,11 @@ export async function writeAll(
 
   await fs.mkdir(postFolder,  { recursive: true });
   await fs.mkdir(imageFolder, { recursive: true });
-  await writePosts(config, pwd, postInfos, logger);
+  await writePosts(config, postInfos, logger);
 }
 
 async function writePosts(
   config: AlpacaConfig,
-  pwd: string,
   postInfos: PostInfo[],
   logger?: Logger
 ): Promise<void> {
@@ -56,7 +55,7 @@ async function writePosts(
     }
 
     const result = await either.bindAsync(
-      writeImages(config, pwd, info),
+      writeImages(config, info),
       async (imageMap) => either.bindAsync(
         compilePost(config, info, imageMap),
         async (post) => writePost(post),
