@@ -12,6 +12,7 @@ export async function findImages(config: AlpacaConfig, folder: string): Promise<
     cwd: folder,
     onlyFiles: true,
     ignore: getIgnorePatterns(config),
+    absolute: true,
   });
   return images;
 }

@@ -1,7 +1,7 @@
 import { AlpacaConfig } from '@/config/alpaca-config';
 import * as either from '@/monad/either';
 import { compilePost } from '@/post/write-post';
-import { PostInfo, PostMetadata } from '@/post/post-type';
+import { BlogPost, PostInfo, PostMetadata } from '@/post/post-type';
 import { findPosts } from '@/post/find-posts';
 import { nubBy } from '@/utils/nub';
 import { buildFolder, postFolder, imageFolder } from '@/constants';
@@ -15,11 +15,11 @@ import { copyImages } from '@/images/copy-images';
 
 export async function writeAll(
   config: AlpacaConfig,
-  folder: string,
+  pwd: string,
   logger?: Logger
 ): Promise<void> {
-  logger?.info(`Searching for posts in path "${folder}"...`);
-  const postInfos = await findPosts(config, folder)
+  logger?.info(`Searching for posts in path "${pwd}"...`);
+  const postInfos = await findPosts(config, pwd)
     .then(posts => nubBy(posts, post => post.id));
 
   logger?.info(`Found ${postInfos.length} posts!`);
@@ -30,13 +30,12 @@ export async function writeAll(
 
   await fs.mkdir(postFolder,  { recursive: true });
   await fs.mkdir(imageFolder, { recursive: true });
-
-  await writePosts(config, postInfos, logger);
-  await writeImages(config, postInfos, logger);
+  await writePosts(config, pwd, postInfos, logger);
 }
 
 async function writePosts(
   config: AlpacaConfig,
+  pwd: string,
   postInfos: PostInfo[],
   logger?: Logger
 ): Promise<void> {
@@ -45,15 +44,20 @@ async function writePosts(
   for (const info of postInfos) {
     logger?.info(`Compiling post "${info.path.relative}"...`);
 
-    const result = await either.bindAsync(
-      compilePost(config, info),
-      async (post) => {
-        const filepath = path.join(postFolder, `${info.id}.json`);
-        const content  = JSON.stringify(post);
-        fs.writeFile(filepath, content)
+    async function writePost(post: BlogPost) {
+      const filepath = path.join(postFolder, `${info.id}.json`);
+      const content  = JSON.stringify(post);
+      fs.writeFile(filepath, content)
 
-        return either.right(post.metadata);
-      }
+      return either.right(post.metadata);
+    }
+
+    const result = await either.bindAsync(
+      copyImages(config, pwd, info),
+      async (imageMap) => either.bindAsync(
+        compilePost(config, info, imageMap),
+        async (post) => writePost(post),
+      )
     );
     either.withEither(
       result,
@@ -70,22 +74,4 @@ async function writeMeta(
   const metaFile = path.join(buildFolder, 'meta.json');
   const content  = JSON.stringify(postInfos);
   return fs.writeFile(metaFile, content);
-}
-
-async function writeImages(
-  config: AlpacaConfig,
-  postInfos: PostInfo[],
-  logger?: Logger
-): Promise<void> {
-  for (const info of postInfos) {
-    logger?.info(`Copying images from "${info.path.relative}"...`);
-    const folder = path.join(imageFolder, info.id);
-    
-    const copied = await copyImages(config, info.folder.absolute, folder);
-    const logged = either.bind(copied, (errors) => {
-      errors.forEach(error => logger?.error(error));
-      return either.right(undefined);
-    });
-    if (either.isLeft(logged)) { logger?.error(logged.value); }
-  }
 }
