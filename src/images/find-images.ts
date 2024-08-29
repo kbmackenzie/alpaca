@@ -19,16 +19,14 @@ export async function findImages(config: AlpacaConfig, folder: string): Promise<
 
 const extensionRe = /^\s*\.?([a-z]{3,})\s*$/i;
 
-export function parseExtensions(extensions: string[]): string[] {
-  return extensions.map(ext => {
-    const match = extensionRe.exec(ext);
-    return match ? match[1] : ext;
-  });
+export function parseExtension(extension: string): string {
+  const match = extensionRe.exec(extension);
+  return match ? match[1] : extension;
 }
 
 function getExtensions(config: AlpacaConfig): string[] {
   if (!config.imageExtensions) return defaultImageExtensions;
-  return parseExtensions(config.imageExtensions);
+  return config.imageExtensions.map(parseExtension);
 }
 
 export async function tryFindImages(config: AlpacaConfig, folder: string): Promise<Either<string, string[]>> {
