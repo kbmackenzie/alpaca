@@ -13,7 +13,7 @@ I've decided to make the repo public in case it's useful to anyone else. I wrote
 - [x] Generate unique post ID from file hierarchy (i.e. `2024/foo/bar` becomes `2024-foo-bar`)
 - [x] Compress all images into web-optimized JPEGs
 - [x] Support post-scoped path alias for image paths (`@alpaca`)
-- [x] Transform Markdown, resolving image paths for compressed images
+- [x] Transform Markdown, resolving image paths according to config
 - [x] Parse post date from a pretty, human-readable string (i.e. `08/26/2024 8:56AM`)
 - [x] Optionally infer post date from file modification date
 
@@ -51,9 +51,8 @@ Options:
   -l, --log-file                   create a log file
   -i, --ignore <PATTERN...>        ignore paths matching pattern(s)
   -n, --never-infer-date           never infer post date from file
-  -o, --optimize-images            optimize post images when building
-  -e, --extensions <EXTENSION...>  image extensions to look for,
-                                   comma-separated
+  -o, --preserve-images            do not compress images
+  -e, --extensions <EXTENSION...>  image extensions to look for
   -h, --help                       display help for command
 ```
 
