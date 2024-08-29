@@ -13,7 +13,7 @@ const schema: JTDSchemaType<AlpacaConfig> = {
     quiet: { type: 'boolean' },
     logFile: { type: 'boolean' },
     neverInferDate: { type: 'boolean' },
-    optimizeImages: { type: 'boolean' },
+    preserveImages: { type: 'boolean' },
     imageAlias: { type: 'string' },
     imageExtensions: { elements: { type: 'string' } },
     ignore: { elements: { type: 'string' } },

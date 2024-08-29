@@ -5,7 +5,7 @@ export type AlpacaConfig = {
   quiet?: boolean;
   logFile?: boolean;
   neverInferDate?: boolean;
-  optimizeImages?: boolean;
+  preserveImages?: boolean;
   imageAlias?: string;
   imageExtensions?: string[];
   ignore?: string[];
@@ -27,7 +27,7 @@ export function prettyConfig(config: AlpacaConfig): string {
     `quiet: ${config.quiet ? 'yes' : 'no'}`,
     `infer date: ${config.neverInferDate ? 'never' : 'as needed'}`,
     `resolve image alias: ${yesOrNo(config.imageAlias)}`,
-    `optimize images: ${yesOrNo(config.optimizeImages)}`,
+    `preserve images: ${yesOrNo(config.preserveImages)}`,
     `image extensions: ${imageExtensions.join(', ')}`,
     `ignore: ${ignored}`,
   ].join('\n');
