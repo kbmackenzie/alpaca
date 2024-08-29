@@ -42,3 +42,15 @@ export function getIgnorePatterns(config: AlpacaConfig): string[] {
   if (!config.ignore) return [dest];
   return [dest, ...config.ignore];
 }
+
+const extensionRe = /^\s*\.?([a-z]{3,})\s*$/i;
+
+export function parseExtension(extension: string): string {
+  const match = extensionRe.exec(extension);
+  return match ? match[1] : extension;
+}
+
+export function getExtensions(config: AlpacaConfig): string[] {
+  if (!config.imageExtensions) return defaultImageExtensions;
+  return config.imageExtensions.map(parseExtension);
+}

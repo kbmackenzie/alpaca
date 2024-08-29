@@ -1,4 +1,4 @@
-import { AlpacaConfig, getIgnorePatterns, defaultImageExtensions } from '@/config/alpaca-config';
+import { AlpacaConfig, getIgnorePatterns, getExtensions } from '@/config/alpaca-config';
 import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
 import fg from 'fast-glob';
@@ -15,18 +15,6 @@ export async function findImages(config: AlpacaConfig, folder: string): Promise<
     absolute: true,
   });
   return images;
-}
-
-const extensionRe = /^\s*\.?([a-z]{3,})\s*$/i;
-
-export function parseExtension(extension: string): string {
-  const match = extensionRe.exec(extension);
-  return match ? match[1] : extension;
-}
-
-function getExtensions(config: AlpacaConfig): string[] {
-  if (!config.imageExtensions) return defaultImageExtensions;
-  return config.imageExtensions.map(parseExtension);
 }
 
 export async function tryFindImages(config: AlpacaConfig, folder: string): Promise<Either<string, string[]>> {

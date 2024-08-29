@@ -1,4 +1,4 @@
-import { parseExtension } from '@/images/find-images';
+import { parseExtension } from '@/config/alpaca-config';
 
 describe('parse file extensions', () => {
   type Expectation = {
