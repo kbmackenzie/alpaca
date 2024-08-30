@@ -1,6 +1,14 @@
 import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
 import sharp, { JpegOptions } from 'sharp';
+import path from 'node:path';
+
+const compressable: Set<string> = new Set(['.png', '.jpg', '.webp']);
+
+export function canCompress(image: string) {
+  const ext = path.extname(image);
+  return compressable.has(ext);
+}
 
 const jpegOptions: JpegOptions = {
   quality: 85,
