@@ -10,11 +10,13 @@ export type PostMetadata = Readonly<{
   id: string;
   timestamp: number;
   description: string;
-  thumbnail?: Readonly<{
-    src: string;
-    alt: string;
-  }>,
+  thumbnail?: Image;
   tags: string[];
+}>;
+
+export type Image = Readonly<{
+  src: string;
+  alt: string;
 }>;
 
 export type BlogPost = Readonly<{
@@ -41,10 +43,7 @@ export type PostFileMeta = Readonly<{
   title: string;
   date?: string;
   description?: string;
-  thumbnail?: Readonly<{
-    src: string;
-    alt: string;
-  }>;
+  thumbnail?: Image;
   tags?: string[];
 }>;
 
