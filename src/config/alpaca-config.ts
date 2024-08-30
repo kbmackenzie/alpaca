@@ -11,7 +11,7 @@ export type AlpacaConfig = {
   ignore?: string[];
 };
 
-export const defaultImageExtensions = ['png', 'jpg', 'webp', 'gif', 'bmp'];
+export const defaultImageExtensions = ['png', 'jpg', 'webp', 'gif'];
 export const defaultImageAlias = '/';
 
 function yesOrNo(value: any): string {
