@@ -15,8 +15,8 @@ export type PostMetadata = Readonly<{
 }>;
 
 export type Image = Readonly<{
-  src: string;
-  alt: string;
+  src:  string;
+  alt?: string;
 }>;
 
 export type BlogPost = Readonly<{
@@ -62,6 +62,8 @@ const schema: JTDSchemaType<PostFileMeta> = {
     thumbnail: {
       properties: {
         src: { type: 'string' },
+      },
+      optionalProperties: {
         alt: { type: 'string' },
       },
     },
