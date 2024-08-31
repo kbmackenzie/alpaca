@@ -1,4 +1,5 @@
-export function forgiveJoin<T>(a?: T[], b?: T[]): T[] {
+export function forgiveJoin<T>(a: T[] | undefined, b?: T[] | undefined): T[] | undefined {
+  if (!a && !b) return undefined;
   let output: T[] = [];
   output = a ? output.concat(a) : output;
   output = b ? output.concat(b) : output;
