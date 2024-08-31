@@ -8,3 +8,7 @@ export function forgiveJoin<T>(a?: T[], b?: T[]): T[] {
 export function getLongest<T>(a: T[], b: T[]): T[] {
   return (a.length > b.length) ? a : b;
 }
+
+export function emptyOrNil<T>(arr: T[] | undefined): arr is [] | undefined {
+  return !arr || arr.length === 0;
+}
