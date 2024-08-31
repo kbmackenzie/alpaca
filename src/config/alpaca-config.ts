@@ -1,7 +1,7 @@
 import fg from 'fast-glob';
 import { version, buildFolder } from '@/constants';
 
-export type AlpacaConfig = {
+export type AlpacaConfig = Readonly<{
   quiet?: boolean;
   logFile?: boolean;
   neverInferDate?: boolean;
@@ -9,7 +9,7 @@ export type AlpacaConfig = {
   imageAlias?: string;
   imageExtensions?: string[];
   ignore?: string[];
-};
+}>;
 
 export const defaultImageExtensions = ['png', 'jpg', 'webp', 'gif'];
 export const defaultImageAlias = '/';
