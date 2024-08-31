@@ -33,7 +33,7 @@ export async function writeImages(
         ? path.extname(image)
         : '.jpg';
 
-      const name     = `${post.id}_${i}${ext}`;
+      const name     = `${post.id}_${i++}${ext}`;
       const aliased  = path.join(getImageAlias(config), name);
       imageMap.set(image, aliased);
 
