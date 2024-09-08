@@ -8,6 +8,7 @@ import { readPost } from '@/post/read-post';
 import { resolveImageAlias } from '@/images/resolve-alias';
 import { resolveThumbnail } from '@/images/thumbnail';
 import { remark } from 'remark';
+import remarkGfm from 'remark-gfm';
 
 export async function compilePost(
   config: AlpacaConfig,
@@ -62,10 +63,9 @@ export async function transformContent(
   content: string,
   imageMap: ImageMap,
 ): Promise<Either<string, string>> {
-  const rem = remark().use(
-    resolveImageAlias,
-    { post, imageMap, }
-  );
+  const rem = remark()
+    .use(remarkGfm)
+    .use(resolveImageAlias, { post, imageMap, });
   const file = await rem.process(content);
   return either.right(String(file));
 }
