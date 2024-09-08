@@ -1,12 +1,8 @@
-const idChar: RegExp = /^[a-zA-Z0-9\-_]$/;
-const idRe:   RegExp = /^[a-z0-9\-_]+$/;
+const idRe = /^[a-z0-9\-_]+$/;
+const notValidRe = /[^a-zA-Z0-9\-_]/g;
 
 export function toPostID(id: string): string {
-  const output: string[] = [];
-  for (const char of id) {
-    output.push(idChar.test(char) ? char.toLowerCase() : '-');
-  }
-  return output.join('');
+  return id.replace(notValidRe, '-').toLowerCase();
 }
 
 export function isValidPostID(id: string): boolean {
