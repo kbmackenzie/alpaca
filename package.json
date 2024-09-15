@@ -14,7 +14,7 @@
   "keywords": [],
   "author": "KBMackenzie <kelly.a.betty@gmail.com>",
   "license": "GPL-3.0-only",
-  "description": "",
+  "description": "A little blog utility.",
   "files": [
     "dist/",
     "LICENSE",
