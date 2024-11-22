@@ -202,10 +202,22 @@ Options:
   -h, --help                    display help for command
 
 Commands:
+  init                          initialize project
   build [options] [PATH]        compile all posts, build blog
   list|ls [options] [PATH]      list all posts with their IDs
   status|stat [options] [PATH]  show alpaca status
   help [command]                display help for command
+```
+
+### `alpaca init --help`
+
+```
+Usage: alpaca init [options]
+
+initialize project
+
+Options:
+  -h, --help  display help for command
 ```
 
 ### `alpaca build --help`
