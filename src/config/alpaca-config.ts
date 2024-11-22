@@ -87,3 +87,12 @@ export function joinConfig(main: AlpacaConfig, extra: Partial<AlpacaConfig>): Al
     ignore:               forgiveJoin(extra.ignore, main.ignore),
   };
 }
+
+export const defaultConfig: AlpacaConfig = {
+  quiet: false,
+  ['log-file']: false,
+  ['preserve-images']: false,
+  ['image-alias']: './',
+  ['image-extensions']: defaultImageExtensions,
+  ignore: [],
+}
