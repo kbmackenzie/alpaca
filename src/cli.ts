@@ -1,7 +1,8 @@
 import { Command } from 'commander';
 import { version } from '@/constants';
 import { runAction } from '@/actions';
-import {AlpacaConfig} from '@/config/alpaca-config';
+import { AlpacaConfig, defaultConfig } from '@/config/alpaca-config';
+import fs from 'node:fs';
 
 export function run(): void {
   const program = new Command();
@@ -9,6 +10,13 @@ export function run(): void {
     .name('alpaca')
     .description('a little blog utility')
     .version(version)
+
+  program.command('init')
+    .description('initialize project')
+    .action(() => {
+      const json = JSON.stringify(defaultConfig);
+      fs.writeFileSync('./alpaca.yaml', json, { encoding: 'utf8' });
+    });
 
   program.command('build')
     .description('compile all posts, build blog')
