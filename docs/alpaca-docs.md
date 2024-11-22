@@ -46,11 +46,11 @@ I like cats!
 ![cat](/my-post-0.jpg)
 ```
 
-And, with a [custom alias path](#imageAlias):
+And, with a [custom alias path](#image-alias):
 
 ```yaml
 # alpaca.yaml
-imageAlias: '/blog/images/'
+image-alias: '/blog/images/'
 ```
 
 ```md
@@ -63,19 +63,19 @@ I like cats!
 An `alpaca.yaml` file is required at your project root.
 
 ```yaml
-imageAlias: '/myblog/images/'
+image-alias: '/myblog/images/'
 quiet: false
-logFile: false
-neverInferDate: false
-preserveImages: true
-imageExtensions:
+log-file: false
+never-infer-date: false
+preserve-images: true
+image-extensions:
   - .png
   - .jpg
 ignore:
   - notes/**
 ```
 
-### imageAlias
+### image-alias
 
 **type**: `string`
 
@@ -89,10 +89,10 @@ By default, the `@alpaca` path alias is resolved like such:
 
 You can modify the first portion of this expression—the `/`.
 
-To make the path always relative, set imageAlias to an empty string:
+To make the path always relative, set image-alias to an empty string:
 
 ```yaml
-imageAlias: ''
+image-alias: ''
 ```
 
 This resolves paths as:
@@ -101,10 +101,10 @@ This resolves paths as:
 [postid]/[image]
 ```
 
-To make the path resolve to a specific endpoint, set imageAlias to that endpoint:
+To make the path resolve to a specific endpoint, set image-alias to that endpoint:
 
 ```yaml
-imageAlias: '/blog/images/'
+image-alias: '/blog/images/'
 ```
 
 This resolves paths as:
@@ -119,7 +119,7 @@ This resolves paths as:
 
 Silence log messages.
 
-### logFile
+### log-file
 
 **type**: `boolean`
 
@@ -135,19 +135,19 @@ Tell the compiler what posts and directories to ignore through a list of glob pa
 
 See the [fast-glob](https://github.com/mrmlnc/fast-glob) documentation for more guidance on glob patterns.
 
-### neverInferDate
+### never-infer-date
 
 **type**: `boolean`
 
 Tell compiler to never infer post date from file modification date, even when no post date is provided in post metadata.
 
-### preserveImages
+### preserve-images
 
 **type**: `boolean` 
 
 Do not compress post images.
 
-### imageExtensions
+### image-extensions
 
 **type**: `string[]`
 
