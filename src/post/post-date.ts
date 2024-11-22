@@ -28,7 +28,7 @@ export async function getPostDate(
   input: string | null| undefined
 ): Promise<Either<string, Date>> {
   if (input === null || input === undefined || input === 'auto') {
-    if (config.neverInferDate) {
+    if (config['never-infer-date']) {
       return either.left<string, Date>(
         `Couldn't get post date from "${folder}": Post date cannot be inferred!`
       );

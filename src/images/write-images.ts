@@ -14,7 +14,7 @@ type Writer = (from: string, to: string) => Promise<Either<string, void>>;
 
 function getWriter(config: AlpacaConfig, compress: boolean): Writer {
   if (!compress) return tryCopyFile;
-  return (config.preserveImages) ? tryCopyFile : tryCompressImage;
+  return (config['preserve-images']) ? tryCopyFile : tryCompressImage;
 }
 
 export async function writeImages(
@@ -29,7 +29,7 @@ export async function writeImages(
 
     for (const image of images) {
       const compress = canCompress(image);
-      const ext      = (config.preserveImages || !compress)
+      const ext      = (config['preserve-images'] || !compress)
         ? path.extname(image)
         : '.jpg';
 

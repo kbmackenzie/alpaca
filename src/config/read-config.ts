@@ -11,11 +11,11 @@ import { existsSync } from 'node:fs';
 const schema: JTDSchemaType<AlpacaConfig> = {
   optionalProperties: {
     quiet: { type: 'boolean' },
-    logFile: { type: 'boolean' },
-    neverInferDate: { type: 'boolean' },
-    preserveImages: { type: 'boolean' },
-    imageAlias: { type: 'string' },
-    imageExtensions: { elements: { type: 'string' } },
+    ['log-file']: { type: 'boolean' },
+    ['never-infer-date']: { type: 'boolean' },
+    ['preserve-images']: { type: 'boolean' },
+    ['image-alias']: { type: 'string' },
+    ['image-extensions']: { elements: { type: 'string' } },
     ignore: { elements: { type: 'string' } },
   },
   additionalProperties: false,

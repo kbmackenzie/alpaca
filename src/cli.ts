@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import { version } from '@/constants';
-import { parseOptions } from '@/config/read-cli';
 import { runAction } from '@/actions';
+import {AlpacaConfig} from '@/config/alpaca-config';
 
 export function run(): void {
   const program = new Command();
@@ -21,7 +21,7 @@ export function run(): void {
     .option('-p, --preserve-images', 'do not compress images')
     .option('-e, --extensions <EXTENSION...>', 'image extensions to look for')
     .action((folder, options) => {
-      const config = parseOptions(options);
+      const config = options as Partial<AlpacaConfig>
       return runAction('build', folder, config);
     });
 
@@ -31,7 +31,7 @@ export function run(): void {
     .argument('[PATH]', 'input folder', '.')
     .option('-i, --ignore <PATTERN...>', 'ignore paths matching pattern(s)')
     .action((folder, options) => {
-      const config = parseOptions(options);
+      const config = options as Partial<AlpacaConfig>
       return runAction('list', folder, config);
     });
 
@@ -41,7 +41,7 @@ export function run(): void {
     .argument('[PATH]', 'input folder', '.')
     .option('-i, --ignore <PATTERN...>', 'ignore paths matching pattern(s)')
     .action((folder, options) => {
-      const config = parseOptions(options);
+      const config = options as Partial<AlpacaConfig>
       return runAction('status', folder, config);
     });
 

@@ -1,4 +1,4 @@
-import { AlpacaConfig, prettyConfig } from '@/config/alpaca-config';
+import { AlpacaConfig, prettyConfig, joinConfig } from '@/config/alpaca-config';
 import { Either } from '@/monad/either';
 import * as either from '@/monad/either';
 import { hasConfig, readConfig } from '@/config/read-config';
@@ -7,7 +7,6 @@ import { writeAll } from '@/write-all';
 import { Logger } from 'winston';
 import { findPosts } from '@/post/find-posts';
 import { nubBy } from '@/utils/nub';
-import { joinConfig } from '@/config/read-cli';
 
 /* All action functions are allowed to throw.
  * They're safely handled. */
@@ -57,7 +56,7 @@ export async function runAction(
     await getConfig(pwd)
   );
   const quiet   = either.fromEither(config, _ => false, config => !!config.quiet  );
-  const logFile = either.fromEither(config, _ => false, config => !!config.logFile);
+  const logFile = either.fromEither(config, _ => false, config => !!config['log-file']);
 
   /* Log file should always be in the project root. */
   const logger = initLogger({

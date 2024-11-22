@@ -1,13 +1,14 @@
 import fg from 'fast-glob';
 import { version, buildFolder } from '@/constants';
+import { forgiveJoin } from '@/utils/array';
 
 export type AlpacaConfig = Readonly<{
   quiet?: boolean;
-  logFile?: boolean;
-  neverInferDate?: boolean;
-  preserveImages?: boolean;
-  imageAlias?: string;
-  imageExtensions?: string[];
+  ['log-file']?: boolean;
+  ['never-infer-date']?: boolean;
+  ['preserve-images']?: boolean;
+  ['image-alias']?: string;
+  ['image-extensions']?: string[];
   ignore?: string[];
 }>;
 
@@ -30,7 +31,7 @@ function prettyArray(
 
 export function prettyConfig(config: AlpacaConfig): string {
   const extensions = prettyArray(
-    config.imageExtensions,
+    config['image-extensions'],
     defaultImageExtensions,
     (xs) => xs.map(parseExtension).join(', ')
   );
@@ -45,16 +46,16 @@ export function prettyConfig(config: AlpacaConfig): string {
     `alpaca v${version}`,
     '',
     `quiet: ${config.quiet ? 'yes' : 'no'}`,
-    `infer date: ${config.neverInferDate ? 'never' : 'as needed'}`,
-    `resolve image alias: ${yesOrNo(config.imageAlias)}`,
-    `preserve images: ${yesOrNo(config.preserveImages)}`,
+    `infer date: ${config['never-infer-date'] ? 'never' : 'as needed'}`,
+    `resolve image alias: ${yesOrNo(config['image-alias'])}`,
+    `preserve images: ${yesOrNo(config['preserve-images'])}`,
     `image extensions: ${extensions}`,
     `ignore: ${ignored}`,
   ].join('\n');
 }
 
 export function getImageAlias(config: AlpacaConfig): string {
-  return config.imageAlias ?? defaultImageAlias;
+  return config['image-alias'] ?? defaultImageAlias;
 }
 
 export function getIgnorePatterns(config: AlpacaConfig): string[] {
@@ -71,6 +72,18 @@ export function parseExtension(extension: string): string {
 }
 
 export function getExtensions(config: AlpacaConfig): string[] {
-  if (!config.imageExtensions) return defaultImageExtensions;
-  return config.imageExtensions.map(parseExtension);
+  if (!config['image-extensions']) return defaultImageExtensions;
+  return config['image-extensions'].map(parseExtension);
+}
+
+export function joinConfig(main: AlpacaConfig, extra: Partial<AlpacaConfig>): AlpacaConfig {
+  return {
+    quiet:                extra.quiet ?? main.quiet,
+    ['log-file']:         extra['log-file'] ?? main['log-file'],
+    ['never-infer-date']: extra['never-infer-date'] ?? main['never-infer-date'],
+    ['preserve-images']:  extra['preserve-images'] ?? main['preserve-images'],
+    ['image-alias']:      extra['image-alias'] ?? main['image-alias'],
+    ['image-extensions']: forgiveJoin(extra['image-extensions'], main['image-extensions']),
+    ignore:               forgiveJoin(extra.ignore, main.ignore),
+  };
 }
