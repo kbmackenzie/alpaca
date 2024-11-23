@@ -2,6 +2,7 @@ import { Command } from 'commander';
 import { version } from '@/constants';
 import { runAction } from '@/actions';
 import { AlpacaConfig, defaultConfig } from '@/config/alpaca-config';
+import YAML from 'yaml';
 import fs from 'node:fs';
 
 export function run(): void {
@@ -14,7 +15,7 @@ export function run(): void {
   program.command('init')
     .description('initialize project')
     .action(() => {
-      const json = JSON.stringify(defaultConfig);
+      const json = YAML.stringify(defaultConfig);
       fs.writeFileSync('./alpaca.yaml', json, { encoding: 'utf8' });
     });
 
